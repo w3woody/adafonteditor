@@ -1,0 +1,433 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		EF20A2DA20E07BBC00566BE4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EF20A2D920E07BBC00566BE4 /* AppDelegate.m */; };
+		EF20A2DD20E07BBC00566BE4 /* AXFontEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF20A2DC20E07BBC00566BE4 /* AXFontEditorViewController.m */; };
+		EF20A2E020E07BBC00566BE4 /* AXDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = EF20A2DF20E07BBC00566BE4 /* AXDocument.m */; };
+		EF20A2E220E07BBC00566BE4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF20A2E120E07BBC00566BE4 /* Assets.xcassets */; };
+		EF20A2E520E07BBC00566BE4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF20A2E320E07BBC00566BE4 /* Main.storyboard */; };
+		EF20A2E820E07BBC00566BE4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EF20A2E720E07BBC00566BE4 /* main.m */; };
+		EF20A2F320E07FA100566BE4 /* AXLayoutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF20A2F220E07FA100566BE4 /* AXLayoutViewController.m */; };
+		EF20A2F920E1287000566BE4 /* AXAttributesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF20A2F720E1287000566BE4 /* AXAttributesViewController.m */; };
+		EF20A2FE20E12C9800566BE4 /* AXFontEditView.m in Sources */ = {isa = PBXBuildFile; fileRef = EF20A2FD20E12C9800566BE4 /* AXFontEditView.m */; };
+		EF20A30120E146D700566BE4 /* AXCharacter.m in Sources */ = {isa = PBXBuildFile; fileRef = EF20A30020E146D700566BE4 /* AXCharacter.m */; };
+		EF5AEC9620E17E9C000E71C4 /* Editor.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF5AEC9420E17E9C000E71C4 /* Editor.storyboard */; };
+		EF5AEC9920E1980E000E71C4 /* AXColorView.m in Sources */ = {isa = PBXBuildFile; fileRef = EF5AEC9820E1980E000E71C4 /* AXColorView.m */; };
+		EFEAADCD20E1729C0091E412 /* AXCharacterViewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = EFEAADCB20E1729C0091E412 /* AXCharacterViewItem.m */; };
+		EFEAADCE20E1729C0091E412 /* AXCharacterViewItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFEAADCC20E1729C0091E412 /* AXCharacterViewItem.xib */; };
+		EFEAADD220E176160091E412 /* NSViewController+Document.m in Sources */ = {isa = PBXBuildFile; fileRef = EFEAADD120E176160091E412 /* NSViewController+Document.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		EF20A2D520E07BBC00566BE4 /* AdaFontEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AdaFontEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EF20A2D820E07BBC00566BE4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		EF20A2D920E07BBC00566BE4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		EF20A2DB20E07BBC00566BE4 /* AXFontEditorViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AXFontEditorViewController.h; sourceTree = "<group>"; };
+		EF20A2DC20E07BBC00566BE4 /* AXFontEditorViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AXFontEditorViewController.m; sourceTree = "<group>"; };
+		EF20A2DE20E07BBC00566BE4 /* AXDocument.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AXDocument.h; sourceTree = "<group>"; };
+		EF20A2DF20E07BBC00566BE4 /* AXDocument.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AXDocument.m; sourceTree = "<group>"; };
+		EF20A2E120E07BBC00566BE4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		EF20A2E420E07BBC00566BE4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		EF20A2E620E07BBC00566BE4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EF20A2E720E07BBC00566BE4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		EF20A2E920E07BBC00566BE4 /* AdaFontEditor.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AdaFontEditor.entitlements; sourceTree = "<group>"; };
+		EF20A2F120E07FA100566BE4 /* AXLayoutViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AXLayoutViewController.h; sourceTree = "<group>"; };
+		EF20A2F220E07FA100566BE4 /* AXLayoutViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AXLayoutViewController.m; sourceTree = "<group>"; };
+		EF20A2F620E1287000566BE4 /* AXAttributesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AXAttributesViewController.h; sourceTree = "<group>"; };
+		EF20A2F720E1287000566BE4 /* AXAttributesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AXAttributesViewController.m; sourceTree = "<group>"; };
+		EF20A2FC20E12C9800566BE4 /* AXFontEditView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AXFontEditView.h; sourceTree = "<group>"; };
+		EF20A2FD20E12C9800566BE4 /* AXFontEditView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AXFontEditView.m; sourceTree = "<group>"; };
+		EF20A2FF20E146D700566BE4 /* AXCharacter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AXCharacter.h; sourceTree = "<group>"; };
+		EF20A30020E146D700566BE4 /* AXCharacter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AXCharacter.m; sourceTree = "<group>"; };
+		EF5AEC9520E17E9C000E71C4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Editor.storyboard; sourceTree = "<group>"; };
+		EF5AEC9720E1980E000E71C4 /* AXColorView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AXColorView.h; sourceTree = "<group>"; };
+		EF5AEC9820E1980E000E71C4 /* AXColorView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AXColorView.m; sourceTree = "<group>"; };
+		EFEAADCA20E1729C0091E412 /* AXCharacterViewItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AXCharacterViewItem.h; sourceTree = "<group>"; };
+		EFEAADCB20E1729C0091E412 /* AXCharacterViewItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AXCharacterViewItem.m; sourceTree = "<group>"; };
+		EFEAADCC20E1729C0091E412 /* AXCharacterViewItem.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AXCharacterViewItem.xib; sourceTree = "<group>"; };
+		EFEAADD020E176160091E412 /* NSViewController+Document.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSViewController+Document.h"; sourceTree = "<group>"; };
+		EFEAADD120E176160091E412 /* NSViewController+Document.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSViewController+Document.m"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		EF20A2D220E07BBC00566BE4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		EF20A2CC20E07BBC00566BE4 = {
+			isa = PBXGroup;
+			children = (
+				EFEAADCF20E175F40091E412 /* Utilities */,
+				EF20A2FB20E12C8100566BE4 /* Views */,
+				EF20A2EF20E07F0A00566BE4 /* View Controllers */,
+				EF20A2F020E07F1F00566BE4 /* Documents */,
+				EF20A2D720E07BBC00566BE4 /* Support */,
+				EF20A2D620E07BBC00566BE4 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		EF20A2D620E07BBC00566BE4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EF20A2D520E07BBC00566BE4 /* AdaFontEditor.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EF20A2D720E07BBC00566BE4 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				EF20A2D820E07BBC00566BE4 /* AppDelegate.h */,
+				EF20A2D920E07BBC00566BE4 /* AppDelegate.m */,
+				EF20A2E120E07BBC00566BE4 /* Assets.xcassets */,
+				EF20A2E320E07BBC00566BE4 /* Main.storyboard */,
+				EF5AEC9420E17E9C000E71C4 /* Editor.storyboard */,
+				EF20A2E620E07BBC00566BE4 /* Info.plist */,
+				EF20A2E720E07BBC00566BE4 /* main.m */,
+				EF20A2E920E07BBC00566BE4 /* AdaFontEditor.entitlements */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
+		EF20A2EF20E07F0A00566BE4 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				EF20A2DB20E07BBC00566BE4 /* AXFontEditorViewController.h */,
+				EF20A2DC20E07BBC00566BE4 /* AXFontEditorViewController.m */,
+				EF20A2F120E07FA100566BE4 /* AXLayoutViewController.h */,
+				EF20A2F220E07FA100566BE4 /* AXLayoutViewController.m */,
+				EF20A2F620E1287000566BE4 /* AXAttributesViewController.h */,
+				EF20A2F720E1287000566BE4 /* AXAttributesViewController.m */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		EF20A2F020E07F1F00566BE4 /* Documents */ = {
+			isa = PBXGroup;
+			children = (
+				EF20A2DE20E07BBC00566BE4 /* AXDocument.h */,
+				EF20A2DF20E07BBC00566BE4 /* AXDocument.m */,
+				EF20A2FF20E146D700566BE4 /* AXCharacter.h */,
+				EF20A30020E146D700566BE4 /* AXCharacter.m */,
+			);
+			path = Documents;
+			sourceTree = "<group>";
+		};
+		EF20A2FB20E12C8100566BE4 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				EF20A2FC20E12C9800566BE4 /* AXFontEditView.h */,
+				EF20A2FD20E12C9800566BE4 /* AXFontEditView.m */,
+				EFEAADCA20E1729C0091E412 /* AXCharacterViewItem.h */,
+				EFEAADCB20E1729C0091E412 /* AXCharacterViewItem.m */,
+				EFEAADCC20E1729C0091E412 /* AXCharacterViewItem.xib */,
+				EF5AEC9720E1980E000E71C4 /* AXColorView.h */,
+				EF5AEC9820E1980E000E71C4 /* AXColorView.m */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		EFEAADCF20E175F40091E412 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				EFEAADD020E176160091E412 /* NSViewController+Document.h */,
+				EFEAADD120E176160091E412 /* NSViewController+Document.m */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		EF20A2D420E07BBC00566BE4 /* AdaFontEditor */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EF20A2EC20E07BBC00566BE4 /* Build configuration list for PBXNativeTarget "AdaFontEditor" */;
+			buildPhases = (
+				EF20A2D120E07BBC00566BE4 /* Sources */,
+				EF20A2D220E07BBC00566BE4 /* Frameworks */,
+				EF20A2D320E07BBC00566BE4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AdaFontEditor;
+			productName = AdaFontEditor;
+			productReference = EF20A2D520E07BBC00566BE4 /* AdaFontEditor.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		EF20A2CD20E07BBC00566BE4 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = AX;
+				LastUpgradeCheck = 0940;
+				ORGANIZATIONNAME = "Glenview Software";
+				TargetAttributes = {
+					EF20A2D420E07BBC00566BE4 = {
+						CreatedOnToolsVersion = 9.4.1;
+						SystemCapabilities = {
+							com.apple.Sandbox = {
+								enabled = 1;
+							};
+						};
+					};
+				};
+			};
+			buildConfigurationList = EF20A2D020E07BBC00566BE4 /* Build configuration list for PBXProject "AdaFontEditor" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = EF20A2CC20E07BBC00566BE4;
+			productRefGroup = EF20A2D620E07BBC00566BE4 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EF20A2D420E07BBC00566BE4 /* AdaFontEditor */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		EF20A2D320E07BBC00566BE4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EF20A2E220E07BBC00566BE4 /* Assets.xcassets in Resources */,
+				EF20A2E520E07BBC00566BE4 /* Main.storyboard in Resources */,
+				EFEAADCE20E1729C0091E412 /* AXCharacterViewItem.xib in Resources */,
+				EF5AEC9620E17E9C000E71C4 /* Editor.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		EF20A2D120E07BBC00566BE4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EF20A2F920E1287000566BE4 /* AXAttributesViewController.m in Sources */,
+				EF20A2FE20E12C9800566BE4 /* AXFontEditView.m in Sources */,
+				EF20A2E020E07BBC00566BE4 /* AXDocument.m in Sources */,
+				EF20A2F320E07FA100566BE4 /* AXLayoutViewController.m in Sources */,
+				EFEAADD220E176160091E412 /* NSViewController+Document.m in Sources */,
+				EFEAADCD20E1729C0091E412 /* AXCharacterViewItem.m in Sources */,
+				EF5AEC9920E1980E000E71C4 /* AXColorView.m in Sources */,
+				EF20A2DD20E07BBC00566BE4 /* AXFontEditorViewController.m in Sources */,
+				EF20A2E820E07BBC00566BE4 /* main.m in Sources */,
+				EF20A30120E146D700566BE4 /* AXCharacter.m in Sources */,
+				EF20A2DA20E07BBC00566BE4 /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		EF20A2E320E07BBC00566BE4 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EF20A2E420E07BBC00566BE4 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		EF5AEC9420E17E9C000E71C4 /* Editor.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EF5AEC9520E17E9C000E71C4 /* Base */,
+			);
+			name = Editor.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		EF20A2EA20E07BBC00566BE4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		EF20A2EB20E07BBC00566BE4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		EF20A2ED20E07BBC00566BE4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Support/AdaFontEditor.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = MUUNEV88XL;
+				INFOPLIST_FILE = Support/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.chaosinmotion.AdaFontEditor;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		EF20A2EE20E07BBC00566BE4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Support/AdaFontEditor.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = MUUNEV88XL;
+				INFOPLIST_FILE = Support/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.chaosinmotion.AdaFontEditor;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		EF20A2D020E07BBC00566BE4 /* Build configuration list for PBXProject "AdaFontEditor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EF20A2EA20E07BBC00566BE4 /* Debug */,
+				EF20A2EB20E07BBC00566BE4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EF20A2EC20E07BBC00566BE4 /* Build configuration list for PBXNativeTarget "AdaFontEditor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EF20A2ED20E07BBC00566BE4 /* Debug */,
+				EF20A2EE20E07BBC00566BE4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = EF20A2CD20E07BBC00566BE4 /* Project object */;
+}
