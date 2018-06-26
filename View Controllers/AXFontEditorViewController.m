@@ -13,6 +13,7 @@
 #import "AXDocument.h"
 #import "AXLayoutViewController.h"
 #import "AXAttributesViewController.h"
+#import "AXExtendedASCII.h"
 
 @interface AXFontEditorViewController () <NSCollectionViewDataSource, NSCollectionViewDelegate>
 @property (weak) IBOutlet NSCollectionView *fontCollection;
@@ -138,10 +139,10 @@
 	uint8_t charIndex = indexPath.item + doc.first;
 	AXCharacter *ch = [doc characterAtIndex:charIndex];
 	NSString *label;
-	if ((charIndex < 32) || (charIndex >= 127)) {
+	if (charIndex < 32) {
 		label = [NSString stringWithFormat:@"%02X",charIndex];
 	} else {
-		label = [NSString stringWithFormat:@"%c",charIndex];
+		label = [NSString stringWithFormat:@"%C",AXExtendedASCIIToUnicode(charIndex)];
 	}
 
 	[item.imageView setImage:ch.bitmapImage];

@@ -8,10 +8,13 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class AXGlyphAttributes;
+
 @interface AXCharacter : NSObject <NSCopying>
 
 - (instancetype)init;
 - (instancetype)initWithCharacter:(AXCharacter *)ch;
+- (instancetype)initWithWidth:(uint8_t)width height:(uint8_t)height;
 
 - (instancetype)initWithJson:(NSDictionary *)json;
 - (NSDictionary *)json;

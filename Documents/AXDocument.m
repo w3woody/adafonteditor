@@ -7,6 +7,7 @@
 //
 
 #import "AXDocument.h"
+#import "AXFontBitmapBuilder.h"
 
 @interface AXDocument ()
 @property (strong) NSMutableArray<AXCharacter *> *characters;
@@ -17,7 +18,8 @@
 
 @implementation AXDocument
 
-- (instancetype)init {
+- (instancetype)init
+{
     self = [super init];
     if (self) {
 		self.first = 32;
@@ -25,23 +27,37 @@
 		self.yHeight = 8;
 
 		self.characters = [[NSMutableArray alloc] init];
-		for (int i = 32; i <= 126; ++i) {
+		for (uint8_t i = 32; i <= 126; ++i) {
 			[self.characters addObject:[[AXCharacter alloc] init]];
 		}
     }
     return self;
 }
 
-+ (BOOL)autosavesInPlace {
+- (instancetype)initWithFont:(NSFont *)font first:(uint8_t)first last:(uint8_t)last
+{
+    self = [super init];
+    if (self) {
+		AXFontBitmapBuilder *builder = [[AXFontBitmapBuilder alloc] initWithFont:font start:first end:last];
+
+		self.first = builder.first;
+		self.last = builder.last;
+		self.yHeight = builder.yHeight;
+		self.characters = builder.characters;
+    }
+    return self;
+}
+
++ (BOOL)autosavesInPlace
+{
 	return YES;
 }
 
-
-- (void)makeWindowControllers {
+- (void)makeWindowControllers
+{
 	// Override to return the Storyboard file name of the AXDocument.
 	[self addWindowController:[[NSStoryboard storyboardWithName:@"Editor" bundle:nil] instantiateInitialController]];
 }
-
 
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError
 {

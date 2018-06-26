@@ -19,6 +19,12 @@
 		EF20A30120E146D700566BE4 /* AXCharacter.m in Sources */ = {isa = PBXBuildFile; fileRef = EF20A30020E146D700566BE4 /* AXCharacter.m */; };
 		EF5AEC9620E17E9C000E71C4 /* Editor.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF5AEC9420E17E9C000E71C4 /* Editor.storyboard */; };
 		EF5AEC9920E1980E000E71C4 /* AXColorView.m in Sources */ = {isa = PBXBuildFile; fileRef = EF5AEC9820E1980E000E71C4 /* AXColorView.m */; };
+		EF5AEC9C20E268D6000E71C4 /* AXFontViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF5AEC9B20E268D6000E71C4 /* AXFontViewController.m */; };
+		EF5AEC9F20E268FA000E71C4 /* AXFontView.m in Sources */ = {isa = PBXBuildFile; fileRef = EF5AEC9E20E268FA000E71C4 /* AXFontView.m */; };
+		EF5AECA320E27AD6000E71C4 /* AXLayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EF5AECA220E27AD6000E71C4 /* AXLayoutManager.m */; };
+		EF5AECA620E27B2B000E71C4 /* AXGlyphAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = EF5AECA520E27B2B000E71C4 /* AXGlyphAttributes.m */; };
+		EF5AECA920E2895E000E71C4 /* AXFontBitmapBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = EF5AECA820E2895E000E71C4 /* AXFontBitmapBuilder.m */; };
+		EF5AECAC20E28C48000E71C4 /* AXExtendedASCII.m in Sources */ = {isa = PBXBuildFile; fileRef = EF5AECAB20E28C48000E71C4 /* AXExtendedASCII.m */; };
 		EFEAADCD20E1729C0091E412 /* AXCharacterViewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = EFEAADCB20E1729C0091E412 /* AXCharacterViewItem.m */; };
 		EFEAADCE20E1729C0091E412 /* AXCharacterViewItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFEAADCC20E1729C0091E412 /* AXCharacterViewItem.xib */; };
 		EFEAADD220E176160091E412 /* NSViewController+Document.m in Sources */ = {isa = PBXBuildFile; fileRef = EFEAADD120E176160091E412 /* NSViewController+Document.m */; };
@@ -48,6 +54,18 @@
 		EF5AEC9520E17E9C000E71C4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Editor.storyboard; sourceTree = "<group>"; };
 		EF5AEC9720E1980E000E71C4 /* AXColorView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AXColorView.h; sourceTree = "<group>"; };
 		EF5AEC9820E1980E000E71C4 /* AXColorView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AXColorView.m; sourceTree = "<group>"; };
+		EF5AEC9A20E268D6000E71C4 /* AXFontViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AXFontViewController.h; sourceTree = "<group>"; };
+		EF5AEC9B20E268D6000E71C4 /* AXFontViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AXFontViewController.m; sourceTree = "<group>"; };
+		EF5AEC9D20E268FA000E71C4 /* AXFontView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AXFontView.h; sourceTree = "<group>"; };
+		EF5AEC9E20E268FA000E71C4 /* AXFontView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AXFontView.m; sourceTree = "<group>"; };
+		EF5AECA120E27AD6000E71C4 /* AXLayoutManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AXLayoutManager.h; sourceTree = "<group>"; };
+		EF5AECA220E27AD6000E71C4 /* AXLayoutManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AXLayoutManager.m; sourceTree = "<group>"; };
+		EF5AECA420E27B2B000E71C4 /* AXGlyphAttributes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AXGlyphAttributes.h; sourceTree = "<group>"; };
+		EF5AECA520E27B2B000E71C4 /* AXGlyphAttributes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AXGlyphAttributes.m; sourceTree = "<group>"; };
+		EF5AECA720E2895E000E71C4 /* AXFontBitmapBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AXFontBitmapBuilder.h; sourceTree = "<group>"; };
+		EF5AECA820E2895E000E71C4 /* AXFontBitmapBuilder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AXFontBitmapBuilder.m; sourceTree = "<group>"; };
+		EF5AECAA20E28C48000E71C4 /* AXExtendedASCII.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AXExtendedASCII.h; sourceTree = "<group>"; };
+		EF5AECAB20E28C48000E71C4 /* AXExtendedASCII.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AXExtendedASCII.m; sourceTree = "<group>"; };
 		EFEAADCA20E1729C0091E412 /* AXCharacterViewItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AXCharacterViewItem.h; sourceTree = "<group>"; };
 		EFEAADCB20E1729C0091E412 /* AXCharacterViewItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AXCharacterViewItem.m; sourceTree = "<group>"; };
 		EFEAADCC20E1729C0091E412 /* AXCharacterViewItem.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AXCharacterViewItem.xib; sourceTree = "<group>"; };
@@ -69,6 +87,7 @@
 		EF20A2CC20E07BBC00566BE4 = {
 			isa = PBXGroup;
 			children = (
+				EF5AECA020E27A96000E71C4 /* Fonts */,
 				EFEAADCF20E175F40091E412 /* Utilities */,
 				EF20A2FB20E12C8100566BE4 /* Views */,
 				EF20A2EF20E07F0A00566BE4 /* View Controllers */,
@@ -110,6 +129,8 @@
 				EF20A2F220E07FA100566BE4 /* AXLayoutViewController.m */,
 				EF20A2F620E1287000566BE4 /* AXAttributesViewController.h */,
 				EF20A2F720E1287000566BE4 /* AXAttributesViewController.m */,
+				EF5AEC9A20E268D6000E71C4 /* AXFontViewController.h */,
+				EF5AEC9B20E268D6000E71C4 /* AXFontViewController.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -135,8 +156,25 @@
 				EFEAADCC20E1729C0091E412 /* AXCharacterViewItem.xib */,
 				EF5AEC9720E1980E000E71C4 /* AXColorView.h */,
 				EF5AEC9820E1980E000E71C4 /* AXColorView.m */,
+				EF5AEC9D20E268FA000E71C4 /* AXFontView.h */,
+				EF5AEC9E20E268FA000E71C4 /* AXFontView.m */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		EF5AECA020E27A96000E71C4 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				EF5AECA120E27AD6000E71C4 /* AXLayoutManager.h */,
+				EF5AECA220E27AD6000E71C4 /* AXLayoutManager.m */,
+				EF5AECA420E27B2B000E71C4 /* AXGlyphAttributes.h */,
+				EF5AECA520E27B2B000E71C4 /* AXGlyphAttributes.m */,
+				EF5AECA720E2895E000E71C4 /* AXFontBitmapBuilder.h */,
+				EF5AECA820E2895E000E71C4 /* AXFontBitmapBuilder.m */,
+				EF5AECAA20E28C48000E71C4 /* AXExtendedASCII.h */,
+				EF5AECAB20E28C48000E71C4 /* AXExtendedASCII.m */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 		EFEAADCF20E175F40091E412 /* Utilities */ = {
@@ -225,12 +263,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF5AEC9F20E268FA000E71C4 /* AXFontView.m in Sources */,
+				EF5AEC9C20E268D6000E71C4 /* AXFontViewController.m in Sources */,
+				EF5AECA320E27AD6000E71C4 /* AXLayoutManager.m in Sources */,
 				EF20A2F920E1287000566BE4 /* AXAttributesViewController.m in Sources */,
+				EF5AECA920E2895E000E71C4 /* AXFontBitmapBuilder.m in Sources */,
 				EF20A2FE20E12C9800566BE4 /* AXFontEditView.m in Sources */,
 				EF20A2E020E07BBC00566BE4 /* AXDocument.m in Sources */,
+				EF5AECA620E27B2B000E71C4 /* AXGlyphAttributes.m in Sources */,
 				EF20A2F320E07FA100566BE4 /* AXLayoutViewController.m in Sources */,
 				EFEAADD220E176160091E412 /* NSViewController+Document.m in Sources */,
 				EFEAADCD20E1729C0091E412 /* AXCharacterViewItem.m in Sources */,
+				EF5AECAC20E28C48000E71C4 /* AXExtendedASCII.m in Sources */,
 				EF5AEC9920E1980E000E71C4 /* AXColorView.m in Sources */,
 				EF20A2DD20E07BBC00566BE4 /* AXFontEditorViewController.m in Sources */,
 				EF20A2E820E07BBC00566BE4 /* main.m in Sources */,

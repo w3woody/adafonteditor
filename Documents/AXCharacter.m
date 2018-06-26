@@ -82,6 +82,23 @@ static uint32_t SizeOfBitmap(uint8_t width, uint8_t height)
 	return self;
 }
 
+- (instancetype)initWithWidth:(uint8_t)width height:(uint8_t)height;
+{
+	if (nil != (self = [super init])) {
+		self.width = width;
+		self.height = height;
+		self.xAdvance = width;
+		self.xOffset = 0;
+		self.yOffset = height;
+
+		uint32_t size = SizeOfBitmap(self.width, self.height);
+		bitmap = (uint8_t *)malloc(size);
+		memset(bitmap,0,size);
+	}
+
+	return self;
+}
+
 - (instancetype)initWithJson:(NSDictionary *)d
 {
 	if (nil != (self = [super init])) {

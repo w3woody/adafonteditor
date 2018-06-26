@@ -9,7 +9,7 @@
 #import "AppDelegate.h"
 
 @interface AppDelegate ()
-
+@property (strong) NSWindowController *createFont;
 @end
 
 @implementation AppDelegate
@@ -24,4 +24,14 @@
 }
 
 
+- (IBAction)newDocumentFromFont:(id)sender
+{
+	// NewFontWindow
+	if (self.createFont == nil) {
+		self.createFont = [[NSStoryboard storyboardWithName:@"Main" bundle:nil] instantiateControllerWithIdentifier:@"NewFontWindow"];
+	}
+	[self.createFont showWindow:nil];
+}
+
 @end
+

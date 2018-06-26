@@ -35,6 +35,9 @@
 
 @interface AXDocument : NSDocument
 
+- (instancetype)init;
+- (instancetype)initWithFont:(NSFont *)font first:(uint8_t)first last:(uint8_t)last;
+
 /*
  *	Document contents
  */
