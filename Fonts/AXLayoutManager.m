@@ -45,11 +45,11 @@
 		[path moveToPoint:NSMakePoint(0, 0)];
 		[path appendBezierPathWithGlyph:glyphs[ix] inFont:font];
 
-		NSSize size = [font advancementForCGGlyph:glyphs[ix]];
+		NSSize size = [font advancementForGlyph:glyphs[ix]];
 
 		glyph.offset = positions[ix];
 		glyph.advance = size.width;
-		glyph.bounds = [font boundingRectForCGGlyph:glyphs[ix]];
+		glyph.bounds = [font boundingRectForGlyph:glyphs[ix]];
 		glyph.path = path;
 
 		[self.axGlyphs addObject:glyph];

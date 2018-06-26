@@ -76,7 +76,7 @@
 						 @"first": @(self.first),
 						 @"last": @(self.last),
 						 @"yHeight": @(self.yHeight) };
-	return [NSJSONSerialization dataWithJSONObject:d  options:NSJSONWritingPrettyPrinted | NSJSONWritingSortedKeys error:nil];
+	return [NSJSONSerialization dataWithJSONObject:d  options:NSJSONWritingPrettyPrinted error:nil];
 }
 
 

@@ -108,7 +108,11 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="xLn-Pn-NGp"/>
-                                        <menuItem title="Export..." keyEquivalent="e" id="9zN-Ji-c27"/>
+                                        <menuItem title="Export..." keyEquivalent="e" id="9zN-Ji-c27">
+                                            <connections>
+                                                <action selector="export:" target="Ady-hI-5gd" id="qs9-Oi-UMh"/>
+                                            </connections>
+                                        </menuItem>
                                     </items>
                                 </menu>
                             </menuItem>
