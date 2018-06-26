@@ -39,6 +39,13 @@
 - (instancetype)initWithFont:(NSFont *)font first:(uint8_t)first last:(uint8_t)last;
 
 /*
+ *	Document export URL
+ */
+
+- (NSURL *)exportURL;
+- (void)setExportURL:(NSURL *)url;
+
+/*
  *	Document contents
  */
 

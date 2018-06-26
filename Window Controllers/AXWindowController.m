@@ -31,17 +31,18 @@
 	panel.allowedFileTypes = @[ @"h" ];
 
 	AXDocument *doc = (AXDocument *)self.document;
-	NSString *name = [doc.fileURL.lastPathComponent stringByDeletingPathExtension];
-	if (name) {
-		name = [name stringByAppendingPathExtension:@"h"];
-		panel.nameFieldStringValue = name;
-	}
-	
+	NSURL *url = doc.exportURL;
+	panel.nameFieldStringValue = [url lastPathComponent];
+	NSURL *dir = [url URLByDeletingLastPathComponent];
+	[panel setDirectoryURL:dir];
+
 	[panel beginSheetModalForWindow:self.window completionHandler:^(NSInteger result) {
 		if (result == NSFileHandlingPanelOKButton) {
 
 			AXFontExport *export = [[AXFontExport alloc] initWithDocument:doc url:panel.URL];
 			[export export];
+
+			doc.exportURL = panel.URL;
 		}
 	}];
 }

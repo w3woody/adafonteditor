@@ -14,6 +14,7 @@
 @property (assign) uint8_t first;
 @property (assign) uint8_t last;
 @property (assign) uint8_t yHeight;
+@property (strong) NSURL *export;
 @end
 
 @implementation AXDocument
@@ -72,7 +73,10 @@
 		[ach addObject:[ch json]];
 	}
 
-	NSDictionary *d = @{ @"characters": ach,
+	NSString *exportPath = self.export.absoluteString;
+	if (exportPath == nil) exportPath = @"";
+	NSDictionary *d = @{ @"export": exportPath,
+						 @"characters": ach,
 						 @"first": @(self.first),
 						 @"last": @(self.last),
 						 @"yHeight": @(self.yHeight) };
@@ -88,6 +92,13 @@
 	self.last = [(NSNumber *)d[@"last"] integerValue];
 	self.yHeight = [(NSNumber *)d[@"yHeight"] integerValue];
 	NSArray<NSDictionary *> *a = (NSArray<NSDictionary *> *)d[@"characters"];
+
+	NSString *exportPath = (NSString *)d[@"export"];
+	if (exportPath.length == 0) {
+		self.export = nil;
+	} else {
+		self.export = [NSURL URLWithString:exportPath];
+	}
 
 	self.characters = [[NSMutableArray alloc] init];
 	for (NSDictionary *d in a) {
@@ -109,6 +120,32 @@
 
 	return YES;
 }
+
+/*
+ *	Export URL management
+ */
+
+- (NSURL *)exportURL
+{
+	if (self.export == nil) {
+		NSURL *name = [self.fileURL URLByDeletingPathExtension];
+		if (name == nil) {
+			NSString *str = [@"~/untitled.h" stringByExpandingTildeInPath];
+			name = [NSURL fileURLWithPath:str isDirectory:NO];
+		} else {
+			name = [name URLByAppendingPathExtension:@"h"];
+		}
+		self.export = name;
+	}
+	return self.export;
+}
+
+- (void)setExportURL:(NSURL *)url
+{
+	self.export = url;
+	[self updateChangeCount:NSChangeDone];		// Force update count for save
+}
+
 
 
 /*
