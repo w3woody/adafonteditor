@@ -51,7 +51,7 @@
 		[tmpImage lockFocus];
 
 		NSMutableArray<AXGlyphAttributes *> *glyphs = [[NSMutableArray alloc] init];
-		for (uint8_t ix = start; ix <= end; ++ix) {
+		for (uint16_t ix = start; ix <= end; ++ix) {
 			@autoreleasepool {
 				/*
 				 *	Yes, this is a lot of machinery just to render a glyph.
@@ -90,7 +90,7 @@
 		 *	This can be a little brute forcey...
 		 */
 
-		for (uint8_t ix = start; ix <= end; ++ix) {
+		for (uint16_t ix = start; ix <= end; ++ix) {
 			uint8_t width;
 			uint8_t height;
 
@@ -125,9 +125,6 @@
 					int16_t width = ceil(r.origin.x + r.size.width) - left;
 					int16_t height = ceil(r.origin.y + r.size.height) - bottom;
 
-					if (width < 1) width = 1;
-					if (height < 1) height = 1;
-
 					/*
 					 *	Now generate the bitmap
 					 */
@@ -144,46 +141,53 @@
 					[ch setXAdvance:advance xOffset:xOffset yOffset:yOffset];
 
 					/*
-					 *	Now render into an offscreen bitmap. Note we need to
-					 *	offset our rendering so that the origins overlap.
+					 *	If we have no bits, skip the rest of this
 					 */
 
-					CGColorSpaceRef bgColorRef = CGColorSpaceCreateDeviceGray();
-					CGContextRef drawContext = CGBitmapContextCreate(nil, width, height, 8, width, bgColorRef, 0);
+					if ((width > 0) && (height > 0)) {
 
-					NSGraphicsContext *savedContext = [NSGraphicsContext currentContext];
-					NSGraphicsContext *ctx = [NSGraphicsContext graphicsContextWithCGContext:drawContext flipped:NO];
-					[NSGraphicsContext setCurrentContext:ctx];
+						/*
+						 *	Now render into an offscreen bitmap. Note we need to
+						 *	offset our rendering so that the origins overlap.
+						 */
 
-					/* Render our bezier */
-					[[NSColor whiteColor] setFill];
-					NSRectFill(CGRectMake(0, 0, width, height));
-					[[NSColor blackColor] setFill];
-					NSAffineTransform *transform = [[NSAffineTransform alloc] init];
-					[transform translateXBy:-left yBy:-bottom];	// ### TODO
-					[g.path transformUsingAffineTransform:transform];
-					[g.path fill];
-					[NSGraphicsContext setCurrentContext:savedContext];
+						CGColorSpaceRef bgColorRef = CGColorSpaceCreateDeviceGray();
+						CGContextRef drawContext = CGBitmapContextCreate(nil, width, height, 8, width, bgColorRef, 0);
 
-					/*
-					 *	Now grab our B&W data and convert to 1 bit per pixel
-					 */
+						NSGraphicsContext *savedContext = [NSGraphicsContext currentContext];
+						NSGraphicsContext *ctx = [NSGraphicsContext graphicsContextWithCGContext:drawContext flipped:NO];
+						[NSGraphicsContext setCurrentContext:ctx];
 
-					uint8_t *data = CGBitmapContextGetData(drawContext);
-					for (uint8_t x = 0; x < width; ++x) {
-						for (uint8_t y = 0; y < height; ++y) {
-							uint8_t b = data[x+y*width];
-							BOOL flag = (b < 0xC0);
-							[ch setBit:flag atX:x y:y];
+						/* Render our bezier */
+						[[NSColor whiteColor] setFill];
+						NSRectFill(CGRectMake(0, 0, width, height));
+						[[NSColor blackColor] setFill];
+						NSAffineTransform *transform = [[NSAffineTransform alloc] init];
+						[transform translateXBy:-left yBy:-bottom];	// ### TODO
+						[g.path transformUsingAffineTransform:transform];
+						[g.path fill];
+						[NSGraphicsContext setCurrentContext:savedContext];
+
+						/*
+						 *	Now grab our B&W data and convert to 1 bit per pixel
+						 */
+
+						uint8_t *data = CGBitmapContextGetData(drawContext);
+						for (uint8_t x = 0; x < width; ++x) {
+							for (uint8_t y = 0; y < height; ++y) {
+								uint8_t b = data[x+y*width];
+								BOOL flag = (b < 0xC0);
+								[ch setBit:flag atX:x y:y];
+							}
 						}
+
+						/*
+						 *	Done; release
+						 */
+
+						CGColorSpaceRelease(bgColorRef);
+						CGContextRelease(drawContext);
 					}
-
-					/*
-					 *	Done; release
-					 */
-
-					CGColorSpaceRelease(bgColorRef);
-					CGContextRelease(drawContext);
 
 					/*
 					 *	Append to our list

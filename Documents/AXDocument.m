@@ -159,7 +159,7 @@
 	NSMutableArray<AXCharacter *> *chars = nil;
 	if ((self.first != code) || (self.last != ecode)) {
 		chars = [[NSMutableArray alloc] init];
-		for (uint8_t x = code; x <= ecode; ++x) {
+		for (uint16_t x = code; x <= ecode; ++x) {
 			AXCharacter *ch = [self characterAtIndex:x];
 			if (ch == nil) {
 				ch = [[AXCharacter alloc] init];

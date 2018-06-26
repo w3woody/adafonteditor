@@ -33,8 +33,8 @@
 - (uint8_t)width;
 - (uint8_t)height;
 - (uint8_t)xAdvance;
-- (uint8_t)xOffset;
-- (uint8_t)yOffset;
+- (int8_t)xOffset;
+- (int8_t)yOffset;
 
 - (void)setWidth:(uint8_t)width height:(uint8_t)height;
 - (void)setXAdvance:(uint8_t)xAdv xOffset:(int8_t)xoff yOffset:(int8_t)yoff;
@@ -44,6 +44,14 @@
 - (void)clearBits;
 
 - (NSImage *)bitmapImage;
+
+/*
+ *	For export. Note our raw data is encoded with bits, LSB leftmost. This
+ *	means for Adafruit GFX we need to flip the bits in the byte
+ */
+
+- (uint16_t)rawBitmapSize;
+- (const uint8_t *)rawBitmap;
 
 @end
 

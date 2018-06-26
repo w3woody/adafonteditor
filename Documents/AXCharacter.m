@@ -16,8 +16,8 @@
 @property (assign) uint8_t width;
 @property (assign) uint8_t height;
 @property (assign) uint8_t xAdvance;
-@property (assign) uint8_t xOffset;
-@property (assign) uint8_t yOffset;
+@property (assign) int8_t xOffset;
+@property (assign) int8_t yOffset;
 @end
 
 /*	SizeOfBitmap
@@ -283,13 +283,19 @@ static uint32_t SizeOfBitmap(uint8_t width, uint8_t height)
 	 *	Create a temporary array of bits which we populate.
 	 */
 
-	uint32_t byteLen = self.width * self.height * sizeof(uint32_t);
+	uint8_t width = self.width;
+	uint8_t height = self.height;
+	if (width < 1) width = 1;
+	if (height < 1) height = 1;
+
+	uint32_t byteLen = width * height * sizeof(uint32_t);
 	uint32_t *array = (uint32_t *)malloc(byteLen);
+	memset(array,0xFF,byteLen);
 
 	for (uint8_t x = 0; x < self.width; ++x) {
 		for (uint8_t y = 0; y < self.height; ++y) {
 			BOOL val = [self getBitAtX:x y:y];
-			array[x + y * self.width] = val ? 0xFF000000 : 0xFFFFFFFF;
+			array[x + y * width] = val ? 0xFF000000 : 0xFFFFFFFF;
 		}
 	}
 
@@ -300,7 +306,7 @@ static uint32_t SizeOfBitmap(uint8_t width, uint8_t height)
     CGColorSpaceRef cspace = CGColorSpaceCreateDeviceRGB();
     CGDataProviderRef provider = CGDataProviderCreateWithData(NULL, array, byteLen, NULL);
 
-	CGImageRef image = CGImageCreate(self.width, self.height, 8, 32, self.width * 4, cspace, kCGBitmapByteOrder32Host * kCGImageAlphaFirst, provider, nil, NO, kCGRenderingIntentDefault);
+	CGImageRef image = CGImageCreate(width, height, 8, 32, width * 4, cspace, kCGBitmapByteOrder32Host * kCGImageAlphaFirst, provider, nil, NO, kCGRenderingIntentDefault);
 
 	CGColorSpaceRelease(cspace);
 	CGDataProviderRelease(provider);
@@ -359,7 +365,7 @@ static uint32_t SizeOfBitmap(uint8_t width, uint8_t height)
 	 */
 
 	if ((maxX == 0) || (maxY == 0)) {
-		modCh = [[AXCharacter alloc] initWithWidth:1 height:1];
+		modCh = [[AXCharacter alloc] initWithWidth:0 height:0];
 		[modCh setXAdvance:self.xAdvance xOffset:0 yOffset:0];
 		return modCh;
 	}
@@ -385,6 +391,22 @@ static uint32_t SizeOfBitmap(uint8_t width, uint8_t height)
 	}
 
 	return modCh;
+}
+
+
+/*
+ *	Raw data
+ */
+
+- (uint16_t)rawBitmapSize
+{
+	uint16_t numberBits = self.width * (uint16_t)self.height;
+	return (numberBits + 7) >> 3;		// round to whole bytes
+}
+
+- (const uint8_t *)rawBitmap
+{
+	return bitmap;
 }
 
 @end
