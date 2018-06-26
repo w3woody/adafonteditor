@@ -44,6 +44,8 @@
 		self.last = builder.last;
 		self.yHeight = builder.yHeight;
 		self.characters = builder.characters;
+
+		[self updateChangeCount:NSChangeDone];
     }
     return self;
 }
@@ -222,5 +224,29 @@
 	[[NSNotificationCenter defaultCenter] postNotificationName:NOTIFY_CHARACTERCHANGED object:self userInfo:@{ @"char": @(code) }];
 }
 
+// Engine replaces all characters with a new array.
+- (void)replaceBitmapsWithBitmap:(NSMutableArray<AXCharacter *> *)ch description:(NSString *)desc
+{
+	[[self.undoManager prepareWithInvocationTarget:self] replaceBitmapsWithBitmap:ch description:desc];
+	[self.undoManager setActionName:desc];
+
+	self.characters = ch;
+
+	[[NSNotificationCenter defaultCenter] postNotificationName:NOTIFY_ALLCHANGED object:self];
+}
+
+- (void)trimFontBitmaps
+{
+	/*
+	 *	Build new trimmed bitmaps
+	 */
+
+	NSMutableArray<AXCharacter *> *chars = [[NSMutableArray alloc] init];
+	for (AXCharacter *ch in self.characters) {
+		AXCharacter *trimCh = [ch trim];
+		[chars addObject:trimCh];
+	}
+	[self replaceBitmapsWithBitmap:chars description:@"Trim Bitmaps"];
+}
 
 @end

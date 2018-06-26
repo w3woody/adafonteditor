@@ -161,4 +161,13 @@
 	[self.fontEditor setCharacter:ch atIndex:ix + doc.first];
 }
 
+/*
+ *	Functions
+ */
+
+- (IBAction)trimFontBitmaps:(id)sender
+{
+	[(AXDocument *)self.document trimFontBitmaps];
+}
+
 @end

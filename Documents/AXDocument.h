@@ -65,6 +65,8 @@
 - (void)setCharacter:(uint8_t)code bitmapWidth:(uint8_t)width height:(uint8_t)height xAdvance:(uint8_t)adv xOffset:(int8_t)xoff yOffset:(int8_t)yoff;
 - (void)clearCharacterAtIndex:(uint8_t)code;
 
+- (void)trimFontBitmaps;
+
 /*
  *	Character editing. Basically we set and clear individual pixels when
  *	we edit characters. This may seem time consuming, but this provides

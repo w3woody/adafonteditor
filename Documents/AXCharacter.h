@@ -20,6 +20,12 @@
 - (NSDictionary *)json;
 
 /*
+ *	Trim support
+ */
+
+- (AXCharacter *)trim;
+
+/*
  *	Character attributes. These must be changed through the document if we
  *	want undo to work.
  */

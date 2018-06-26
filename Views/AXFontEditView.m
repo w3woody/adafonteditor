@@ -138,20 +138,32 @@
 
 	int8_t xOff = self.character.xOffset;
 	int8_t yOff = self.character.yOffset;
-	if ((xOff >= 0) && (yOff >= 0)) {
-		if ((xOff <= width) && (yOff <= height)) {
-			/*
-			 *	Origin is visible
-			 */
 
-			CGRect r = CGRectMake(left + pix * xOff - 4, top + pix * yOff - 4, 8, 8);
-			[[NSColor blueColor] setFill];
-			NSBezierPath *p = [[NSBezierPath alloc] init];
-			[p appendBezierPathWithOvalInRect:r];
+	/*
+	 *	Draw the origin and the width of the character as a line to the
+	 *	next origin
+	 */
 
-			[p fill];
-		}
-	}
+	CGPoint ptOrigin = CGPointMake(left + pix * xOff, top + pix * yOff);
+	CGPoint ptNext = CGPointMake(ptOrigin.x + self.character.xAdvance * pix, ptOrigin.y);
+
+	[[NSColor blueColor] setFill];
+
+	CGRect r = CGRectMake(ptOrigin.x - 4, ptOrigin.y - 4, 8, 8);
+	NSBezierPath *p = [[NSBezierPath alloc] init];
+	[p appendBezierPathWithOvalInRect:r];
+
+	r = CGRectMake(ptNext.x - 3, ptNext.y - 3, 6, 6);
+	[p appendBezierPathWithOvalInRect:r];
+
+	[p fill];
+
+	p = [[NSBezierPath alloc] init];
+	[p moveToPoint:ptOrigin];
+	[p lineToPoint:ptNext];
+	[p setLineWidth:2];
+	[[NSColor blueColor] setStroke];
+	[p stroke];
 
 	/*
 	 *	Draw resize thumb

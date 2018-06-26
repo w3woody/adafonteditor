@@ -314,4 +314,77 @@ static uint32_t SizeOfBitmap(uint8_t width, uint8_t height)
 	return ret;
 }
 
+/*
+ *	Trim; this does all the work to trim a bitmap to its smallest size by
+ *	deleting blank rows.
+ */
+
+- (AXCharacter *)trim
+{
+	AXCharacter *modCh;
+
+	/*
+	 *	Step 1: Find the minimum and maximum set pixels for x and y.
+	 */
+
+	uint8_t minX = self.width;		// Start with backwards dimensions
+	uint8_t maxX = 0;
+	uint8_t minY = self.height;
+	uint8_t maxY = 0;
+
+	for (uint8_t x = 0; x < self.width; ++x) {
+		for (uint8_t y = 0; y < self.height; ++y) {
+			BOOL flag = [self getBitAtX:x y:y];
+
+			if (flag) {
+				// Bit is visible, so reset the bounding box
+				if (minX > x) minX = x;
+				if (maxX < x+1) maxX = x+1;
+				if (minY > y) minY = y;
+				if (maxY < y+1) maxY = y+1;
+			}
+		}
+	}
+
+	/*
+	 *	Fast escape: If we didn't shrink, pass me back
+	 */
+
+	if ((minX == 0) && (maxX == self.width) && (minY == 0) && (maxY == self.height)) {
+		return self;
+	}
+
+	/*
+	 *	Fast escape: if empty, then return a 1 pixel blank
+	 */
+
+	if ((maxX == 0) || (maxY == 0)) {
+		modCh = [[AXCharacter alloc] initWithWidth:1 height:1];
+		[modCh setXAdvance:self.xAdvance xOffset:0 yOffset:0];
+		return modCh;
+	}
+
+	/*
+	 *	Step 2: construct a new character with the dimensions specified
+	 */
+
+	modCh = [[AXCharacter alloc] initWithWidth:maxX - minX height:maxY - minY];
+	[modCh setXAdvance:self.xAdvance xOffset:self.xOffset - minX yOffset:self.yOffset - minY];
+
+	/*
+	 *	Step 3: copy the bits
+	 */
+
+	for (uint8_t x = minX; x < maxX; ++x) {
+		for (uint8_t y = minY; y < maxY; ++y) {
+			BOOL flag = [self getBitAtX:x y:y];
+			if (flag) {
+				[modCh setBit:YES atX:x - minX y:y - minY];
+			}
+		}
+	}
+
+	return modCh;
+}
+
 @end
