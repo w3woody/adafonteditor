@@ -1,8 +1,10 @@
 # adafonteditor
 
-This is a simple font editor for the Macintosh which can edit fonts that can then be used by the Adafruit GFX library.
+This is a simple font editor for the Macintosh which can edit fonts that can then be used by the [Adafruit GFX library.](https://github.com/adafruit/Adafruit-GFX-Library)
 
-Currently this is a work in progress.
+For more information please visit our website at [Glenview Software](https://glenviewsoftware.com/projects/products/adafonteditor/).
+
+We also have [a technical discussion of the AdaFruit GFX font format.](https://glenviewsoftware.com/projects/products/adafonteditor/adafruit-gfx-font-format/) 
 
 # License
 
