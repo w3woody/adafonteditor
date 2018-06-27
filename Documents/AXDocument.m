@@ -142,8 +142,10 @@
 
 - (void)setExportURL:(NSURL *)url
 {
-	self.export = url;
-	[self updateChangeCount:NSChangeDone];		// Force update count for save
+	if (![self.export isEqualTo:url]) {
+		self.export = url;
+		[self updateChangeCount:NSChangeDone];		// Force update count for save
+	}
 }
 
 

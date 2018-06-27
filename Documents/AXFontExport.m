@@ -126,7 +126,7 @@
 		} else {
 			fprintf(file,",\n    ");
 		}
-		fprintf(file,"{ %5d, %3d, %3d, %3d, %3d, %3d }",offset,c.width,c.height,c.xAdvance,c.xOffset,-c.yOffset);
+		fprintf(file,"{ %5d, %3d, %3d, %3d, %3d, %3d }",offset,c.width,c.height,c.xAdvance,-c.xOffset,-c.yOffset);
 
 		offset += c.rawBitmapSize;
 	}

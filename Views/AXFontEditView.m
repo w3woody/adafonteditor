@@ -8,6 +8,60 @@
 
 #import "AXFontEditView.h"
 
+/*
+ *	Internal structures
+ */
+
+typedef struct AXDisplayBoundary
+{
+	// Total area to draw
+	int16_t left;
+	int16_t top;
+	int16_t right;
+	int16_t bottom;
+
+	// Bitmap region.
+	int16_t width;
+	int16_t height;
+
+	// Pixel size
+	int16_t pixelSize;
+
+	// Pixel offset from screen
+	int16_t xoff;
+	int16_t yoff;
+} AXDisplayBoundary;
+
+/*
+ *	Simple layout calculations
+ */
+
+static CGPoint CalcPoint(int16_t x, int16_t y, AXDisplayBoundary b)
+{
+	CGPoint pt;
+
+	pt.x = b.xoff + (x + b.left) * b.pixelSize;
+	pt.y = b.yoff + (y + b.top) * b.pixelSize;
+
+	return pt;
+}
+
+static CGRect CalcRect(int16_t x, int16_t y, AXDisplayBoundary b)
+{
+	CGRect r;
+
+	r.origin = CalcPoint(x, y, b);
+	r.size.width = b.pixelSize;
+	r.size.height = b.pixelSize;
+
+	return r;
+}
+
+
+/*
+ *	Font editor
+ */
+
 @interface AXFontEditView ()
 @property (strong) AXDocument *document;
 @property (strong) AXCharacter *character;
@@ -58,20 +112,73 @@
 	[self setNeedsDisplay:YES];
 }
 
-- (NSInteger)pixelSize
-{
-	if (self.character == nil) return 32;
+/*
+ *	Get pixel size, boundaries. This includes the offsets and origin setbacks
+ */
 
+- (AXDisplayBoundary)pixelSize
+{
 	CGSize size = self.bounds.size;
 
-	NSInteger pixSize = size.width / self.character.width;
-	NSInteger pixSizeY = size.height / self.character.height;
+	if ((self.character.width == 0) || (self.character.height == 0)) {
+		return (AXDisplayBoundary){ 0,0,0,0,
+									0,0,
+									32,
+									size.width/2,size.height/2 };
+	}
+
+	AXDisplayBoundary b;
+	int16_t tmp;
+
+	b.left = 0;
+	b.top = 0;
+	b.right = self.character.width;
+	b.bottom = self.character.height;
+
+	b.width = self.character.width;
+	b.height = self.character.height;
+
+	/*
+	 *	If the character xoffset is less than zero, grow our rectangle
+	 */
+
+	if (self.character.xOffset < 0) {
+		b.left = self.character.xOffset;
+	}
+	if (self.character.yOffset < 0) {
+		b.top = self.character.yOffset;
+	}
+	if (self.character.yOffset > b.bottom) {
+		b.bottom = self.character.yOffset;
+	}
+
+	tmp = self.character.xOffset + self.character.xAdvance;
+	if (b.right < tmp) b.right = tmp;
+
+	/*
+	 *	Calculate the pixel size
+	 */
+
+	NSInteger w = b.right - b.left;
+	NSInteger h = b.bottom - b.top;
+
+	NSInteger pixSize = (size.width - 20) / w;
+	NSInteger pixSizeY = (size.height - 20) / h;
 	if (pixSize > pixSizeY) pixSize = pixSizeY;
 
 	if (pixSize > 32) pixSize = 32;
 	if (pixSize < 2) pixSize = 2;
 
-	return pixSize;
+	b.pixelSize = pixSize;
+
+	/*
+	 *	Find the x offset and y offset
+	 */
+
+	b.xoff = (size.width - pixSize * w)/2;
+	b.yoff = (size.height - pixSize * h)/2;
+
+	return b;
 }
 
 - (void)clearCharacter
@@ -91,45 +198,76 @@
     if (self.character == nil) return;
 
 	/*
-	 *	Pixels
+	 *	Get pixel information
 	 */
 
-    uint8_t width = self.character.width;
-    uint8_t height = self.character.height;
-	CGSize size = self.bounds.size;
-	NSInteger pix = [self pixelSize];
-	NSInteger left = (size.width - pix * width)/2;
-	NSInteger top = (size.height - pix * height)/2;
+	AXDisplayBoundary b = [self pixelSize];
 
 	/*
 	 *	Draw pixels
 	 */
 
 	[[NSColor blackColor] setFill];
-    for (uint8_t x = 0; x < width; ++x) {
-    	for (uint8_t y = 0; y < height; ++y) {
+    for (uint8_t x = 0; x < b.width; ++x) {
+    	for (uint8_t y = 0; y < b.height; ++y) {
     		BOOL flag = [self.character getBitAtX:x y:y];
-    		CGRect r = CGRectMake(x * pix + left, y * pix + top, pix, pix);
     		if (flag) {
+	    		CGRect r = CalcRect(x,y,b);
     			NSRectFill(r);
 			}
 		}
 	}
 
     /*
-     *	Draw grid
+     *	Draw full grid in very light gray
      */
 
 	NSBezierPath *path = [[NSBezierPath alloc] init];
-	for (NSInteger i = 0; i <= width; ++i) {
-		[path moveToPoint:NSMakePoint(left + i * pix + 0.5, top)];
-		[path lineToPoint:NSMakePoint(left + i * pix + 0.5, top + height * pix)];
+	for (NSInteger i = b.left; i <= b.right; ++i) {
+		CGPoint pt1 = CalcPoint(i, b.top, b);
+		CGPoint pt2 = CalcPoint(i, b.bottom, b);
+
+		pt1.x += 0.5;
+		pt2.x += 0.5;
+		[path moveToPoint:pt1];
+		[path lineToPoint:pt2];
 	}
-	for (NSInteger i = 0; i <= height; ++i) {
-		[path moveToPoint:NSMakePoint(left, top + i * pix + 0.5)];
-		[path lineToPoint:NSMakePoint(left + width * pix, top + i * pix + 0.5)];
+	for (NSInteger i = b.top; i <= b.bottom; ++i) {
+		CGPoint pt1 = CalcPoint(b.left, i, b);
+		CGPoint pt2 = CalcPoint(b.right, i, b);
+
+		pt1.y += 0.5;
+		pt2.y += 0.5;
+		[path moveToPoint:pt1];
+		[path lineToPoint:pt2];
 	}
-	[[NSColor lightGrayColor] setStroke];
+	[[NSColor colorWithWhite:0.93 alpha:1.0] setStroke];
+	[path stroke];
+
+	/*
+	 *	Draw bitmap visible grid
+	 */
+
+	path = [[NSBezierPath alloc] init];
+	for (NSInteger i = 0; i <= b.width; ++i) {
+		CGPoint pt1 = CalcPoint(i, 0, b);
+		CGPoint pt2 = CalcPoint(i, b.height, b);
+
+		pt1.x += 0.5;
+		pt2.x += 0.5;
+		[path moveToPoint:pt1];
+		[path lineToPoint:pt2];
+	}
+	for (NSInteger i = 0; i <= b.height; ++i) {
+		CGPoint pt1 = CalcPoint(0, i, b);
+		CGPoint pt2 = CalcPoint(b.width, i, b);
+
+		pt1.y += 0.5;
+		pt2.y += 0.5;
+		[path moveToPoint:pt1];
+		[path lineToPoint:pt2];
+	}
+	[[NSColor colorWithWhite:0.5 alpha:1.0] setStroke];
 	[path stroke];
 
 	/*
@@ -144,8 +282,8 @@
 	 *	next origin
 	 */
 
-	CGPoint ptOrigin = CGPointMake(left + pix * xOff, top + pix * yOff);
-	CGPoint ptNext = CGPointMake(ptOrigin.x + self.character.xAdvance * pix, ptOrigin.y);
+	CGPoint ptOrigin = CalcPoint(xOff, yOff, b);
+	CGPoint ptNext = CGPointMake(ptOrigin.x + self.character.xAdvance * b.pixelSize, ptOrigin.y);
 
 	[[NSColor blueColor] setFill];
 
@@ -164,14 +302,6 @@
 	[p setLineWidth:2];
 	[[NSColor blueColor] setStroke];
 	[p stroke];
-
-	/*
-	 *	Draw resize thumb
-	 */
-
-	CGRect th = CGRectMake(left + pix * width - 5, top + pix * height - 5, 10, 10);
-	[[NSColor lightGrayColor] setFill];
-	NSRectFill(th);
 }
 
 - (void)setCharacter:(AXCharacter *)ch atIndex:(uint8_t)ix
@@ -193,14 +323,11 @@
 
     uint8_t width = self.character.width;
     uint8_t height = self.character.height;
-	CGSize size = self.bounds.size;
-	NSInteger pix = [self pixelSize];
-	NSInteger left = (size.width - pix * width)/2;
-	NSInteger top = (size.height - pix * height)/2;
+	AXDisplayBoundary b = [self pixelSize];
 
     for (uint8_t x = 0; x < width; ++x) {
     	for (uint8_t y = 0; y < height; ++y) {
-    		CGRect r = CGRectMake(x * pix + left, y * pix + top, pix, pix);
+    		CGRect r = CalcRect(x, y, b);
     		if (CGRectContainsPoint(r, loc)) {
     			/*
     			 *	Flip bit
