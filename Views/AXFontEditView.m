@@ -63,7 +63,7 @@ static CGRect CalcRect(int16_t x, int16_t y, AXDisplayBoundary b)
  */
 
 @interface AXFontEditView ()
-@property (strong) AXDocument *document;
+@property (strong, nonatomic) AXDocument *document;
 @property (strong) AXCharacter *character;
 @property (assign) uint8_t charIndex;
 @end
@@ -88,7 +88,6 @@ static CGRect CalcRect(int16_t x, int16_t y, AXDisplayBoundary b)
 
 - (void)internalInit
 {
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadCharacter:) name:NOTIFY_CHARACTERCHANGED object:nil];
 }
 
 - (void)reloadCharacter:(NSNotification *)n
@@ -110,6 +109,13 @@ static CGRect CalcRect(int16_t x, int16_t y, AXDisplayBoundary b)
 {
 	[super resizeSubviewsWithOldSize:oldSize];
 	[self setNeedsDisplay:YES];
+}
+
+- (void)setDocument:(AXDocument *)doc
+{
+	_document = doc;
+
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadCharacter:) name:NOTIFY_CHARACTERCHANGED object:doc];
 }
 
 /*

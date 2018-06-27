@@ -31,46 +31,47 @@
             <objects>
                 <viewController id="5gI-5U-AMq" customClass="AXFontEditorViewController" sceneMemberID="viewController">
                     <view key="view" wantsLayer="YES" id="ERx-hH-rdd">
-                        <rect key="frame" x="0.0" y="0.0" width="798" height="482"/>
+                        <rect key="frame" x="0.0" y="0.0" width="798" height="515"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <splitView arrangesAllSubviews="NO" dividerStyle="paneSplitter" vertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xre-qE-EeM">
-                                <rect key="frame" x="0.0" y="0.0" width="798" height="482"/>
+                                <rect key="frame" x="0.0" y="0.0" width="798" height="515"/>
                                 <subviews>
-                                    <scrollView wantsLayer="YES" fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="XDh-4J-FGi">
-                                        <rect key="frame" x="0.0" y="0.0" width="245" height="482"/>
+                                    <scrollView fixedFrame="YES" borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="pMs-YD-w7G">
+                                        <rect key="frame" x="0.0" y="0.0" width="211" height="515"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <clipView key="contentView" drawsBackground="NO" id="QDw-Ql-GF0">
-                                            <rect key="frame" x="1" y="1" width="243" height="480"/>
+                                        <clipView key="contentView" id="N35-z3-que">
+                                            <rect key="frame" x="0.0" y="0.0" width="196" height="515"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
-                                                <collectionView focusRingType="exterior" selectable="YES" allowsEmptySelection="NO" id="y4D-rN-EnX">
-                                                    <rect key="frame" x="0.0" y="0.0" width="243" height="158"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                                                    <collectionViewFlowLayout key="collectionViewLayout" minimumInteritemSpacing="5" minimumLineSpacing="5" id="Aho-hx-lIA">
-                                                        <size key="itemSize" width="50" height="50"/>
-                                                        <edgeInsets key="sectionInset" left="5" right="5" top="5" bottom="5"/>
-                                                    </collectionViewFlowLayout>
-                                                    <color key="primaryBackgroundColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
+                                                <view translatesAutoresizingMaskIntoConstraints="NO" id="tRx-RU-R33" customClass="AXFontSelectorView">
+                                                    <rect key="frame" x="0.0" y="315" width="196" height="200"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="200" id="lo0-uh-ugx"/>
+                                                    </constraints>
                                                     <connections>
-                                                        <outlet property="dataSource" destination="5gI-5U-AMq" id="h9c-Pt-j9C"/>
-                                                        <outlet property="delegate" destination="5gI-5U-AMq" id="yWK-WX-3HB"/>
+                                                        <outlet property="heightConstraint" destination="lo0-uh-ugx" id="mYR-wY-66X"/>
                                                     </connections>
-                                                </collectionView>
+                                                </view>
                                             </subviews>
-                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            <constraints>
+                                                <constraint firstItem="tRx-RU-R33" firstAttribute="width" secondItem="N35-z3-que" secondAttribute="width" id="BNn-fz-J2X"/>
+                                                <constraint firstItem="tRx-RU-R33" firstAttribute="leading" secondItem="N35-z3-que" secondAttribute="leading" id="Fkz-y7-tvA"/>
+                                                <constraint firstAttribute="trailing" secondItem="tRx-RU-R33" secondAttribute="trailing" id="MtA-d9-mNz"/>
+                                                <constraint firstItem="tRx-RU-R33" firstAttribute="top" secondItem="N35-z3-que" secondAttribute="top" id="grI-os-vAN"/>
+                                            </constraints>
                                         </clipView>
-                                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="Byy-aQ-3Ef">
-                                            <rect key="frame" x="1" y="144" width="233" height="15"/>
+                                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="cmf-Xo-lzO">
+                                            <rect key="frame" x="-100" y="-100" width="196" height="15"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </scroller>
-                                        <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="BU0-TB-SwT">
-                                            <rect key="frame" x="234" y="1" width="15" height="143"/>
+                                        <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="x4u-6P-UK6">
+                                            <rect key="frame" x="196" y="0.0" width="15" height="515"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </scroller>
                                     </scrollView>
                                     <customView fixedFrame="YES" id="oCr-vZ-y3s" customClass="AXFontEditView">
-                                        <rect key="frame" x="255" y="0.0" width="543" height="482"/>
+                                        <rect key="frame" x="221" y="0.0" width="577" height="515"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                     </customView>
                                 </subviews>
@@ -88,8 +89,8 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="fontCollection" destination="y4D-rN-EnX" id="b5e-bT-38j"/>
                         <outlet property="fontEditor" destination="oCr-vZ-y3s" id="5Ym-2D-LuD"/>
+                        <outlet property="selectorView" destination="tRx-RU-R33" id="OQ7-m2-ukm"/>
                         <segue destination="qFE-Cs-TcS" kind="sheet" identifier="docLayoutSegue" id="emv-WL-bjY"/>
                         <segue destination="k6n-OC-J4v" kind="sheet" identifier="charAttrSegue" id="s9C-PG-g7c"/>
                     </connections>

@@ -8,6 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class AXDocument;
+
 @interface AXFontEditorViewController : NSViewController
 
 - (IBAction)showFontAttributes:(id)sender;

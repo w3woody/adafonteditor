@@ -7,16 +7,15 @@
 //
 
 #import "AXFontEditorViewController.h"
-#import "NSViewController+Document.h"
 #import "AXFontEditView.h"
-#import "AXCharacterViewItem.h"
+#import "AXFontSelectorView.h"
 #import "AXDocument.h"
 #import "AXLayoutViewController.h"
 #import "AXAttributesViewController.h"
 #import "AXExtendedASCII.h"
 
-@interface AXFontEditorViewController () <NSCollectionViewDataSource, NSCollectionViewDelegate>
-@property (weak) IBOutlet NSCollectionView *fontCollection;
+@interface AXFontEditorViewController ()
+@property (weak) IBOutlet AXFontSelectorView *selectorView;
 @property (weak) IBOutlet AXFontEditView *fontEditor;
 @end
 
@@ -26,9 +25,16 @@
 {
 	[super viewDidLoad];
 
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadDocument:) name:NOTIFY_DOCUMENTCHANGED object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadDocument:) name:NOTIFY_ALLCHANGED object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadCharacter:) name:NOTIFY_CHARACTERCHANGED object:nil];
+	/*
+	 *	At this point we do some wiring up--we connect our selector view
+	 *	to a method to update the font editor contents
+	 */
+
+	self.selectorView.updateSelection = ^(NSInteger index) {
+		AXDocument *doc = (AXDocument *)self.representedObject;
+		AXCharacter *ch = [doc characterAtIndex:index + doc.first];
+		[self.fontEditor setCharacter:ch atIndex:index + doc.first];
+	};
 }
 
 - (void)dealloc
@@ -36,12 +42,26 @@
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-
 - (void)setRepresentedObject:(id)representedObject
 {
 	[super setRepresentedObject:representedObject];
 
 	// Update the view, if already loaded.
+
+	/*
+	 *	Register the notification listeners.
+	 */
+
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadDocument:) name:NOTIFY_DOCUMENTCHANGED object:representedObject];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadDocument:) name:NOTIFY_ALLCHANGED object:representedObject];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadCharacter:) name:NOTIFY_CHARACTERCHANGED object:representedObject];
+
+	/*
+	 *	Let our views know where they're getting their data from
+	 */
+
+	[self.fontEditor setDocument:(AXDocument *)representedObject];
+	[self.selectorView setDocument:(AXDocument *)representedObject];
 }
 
 /*
@@ -55,8 +75,7 @@
 
 - (IBAction)showCharacterAttributes:(id)sender
 {
-	NSSet<NSIndexPath *> *sel = self.fontCollection.selectionIndexPaths;
-	if ([sel count] == 0) return;
+	if (self.selectorView.selected < 0) return;
 
 	[self performSegueWithIdentifier:@"charAttrSegue" sender:self];
 }
@@ -71,15 +90,13 @@
 	if ([segue.identifier isEqualToString:@"docLayoutSegue"]) {
 		AXLayoutViewController *lvc = (AXLayoutViewController *)segue.destinationController;
 		__weak AXLayoutViewController *wlvc = lvc;
-		lvc.document = (AXDocument *)self.document;
+		lvc.document = (AXDocument *)self.representedObject;
 		lvc.close = ^{
 			[self dismissViewController:wlvc];
 		};
 	} else if ([segue.identifier isEqualToString:@"charAttrSegue"]) {
-		AXDocument *doc = (AXDocument *)self.document;
-		NSSet<NSIndexPath *> *sel = self.fontCollection.selectionIndexPaths;
-		NSIndexPath *path = sel.anyObject;
-		NSInteger code = doc.first + path.item;
+		AXDocument *doc = (AXDocument *)self.representedObject;
+		NSInteger code = doc.first + self.selectorView.selected;
 
 		AXAttributesViewController *lvc = (AXAttributesViewController *)segue.destinationController;
 		__weak AXAttributesViewController *wlvc = lvc;
@@ -97,68 +114,14 @@
 
 - (void)reloadDocument:(NSNotification *)n
 {
-	[self.fontEditor setDocument:(AXDocument *)self.document];
-
-	[self.fontCollection deselectAll:nil];
-	[self.fontCollection reloadData];
-	[self.fontEditor setCharacter:nil atIndex:0];
+	// ### Note: we do nothing here; our selector view will also reload,
+	// and send an update selection notification if necessary
 }
 
 - (void)reloadCharacter:(NSNotification *)n
 {
-	NSNumber *num = n.userInfo[@"char"];
-	AXDocument *doc = (AXDocument *)self.document;
-
-	NSMutableSet *set = [[NSMutableSet alloc] init];
-	NSIndexPath *ipath = [NSIndexPath indexPathForItem:num.integerValue - doc.first inSection:0];
-	[set addObject:ipath];
-	[self.fontCollection reloadItemsAtIndexPaths:set];
-}
-
-/*
- *	Font collection view
- */
-
-- (NSInteger)numberOfSectionsInCollectionView:(NSCollectionView *)collectionView
-{
-	return 1;
-}
-
-- (NSInteger)collectionView:(NSCollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
-{
-	AXDocument *doc = (AXDocument *)self.document;
-	NSInteger len = 1 + doc.last - doc.first;
-	return len;
-}
-
-- (NSCollectionViewItem *)collectionView:(NSCollectionView *)collectionView itemForRepresentedObjectAtIndexPath:(NSIndexPath *)indexPath
-{
-	AXCharacterViewItem *item = [collectionView makeItemWithIdentifier:@"AXCharacterViewItem" forIndexPath:indexPath];
-	AXDocument *doc = (AXDocument *)self.document;
-
-	uint8_t charIndex = indexPath.item + doc.first;
-	AXCharacter *ch = [doc characterAtIndex:charIndex];
-	NSString *label;
-	if (charIndex < 32) {
-		label = [NSString stringWithFormat:@"%02X",charIndex];
-	} else {
-		label = [NSString stringWithFormat:@"%C",AXExtendedASCIIToUnicode(charIndex)];
-	}
-
-	[item.imageView setImage:ch.bitmapImage];
-	[item.textField setStringValue:label];
-
-	return item;
-}
-
-- (void)collectionView:(NSCollectionView *)col didSelectItemsAtIndexPaths:(nonnull NSSet<NSIndexPath *> *)indexPaths
-{
-	NSIndexPath *indexPath = indexPaths.anyObject;
-	NSInteger ix = indexPath.item;
-	AXDocument *doc = (AXDocument *)self.document;
-	AXCharacter *ch = [doc characterAtIndex:ix + doc.first];
-	[self.fontEditor setDocument:doc];
-	[self.fontEditor setCharacter:ch atIndex:ix + doc.first];
+	// ### Note: we do nothing here; our selector view responds to this
+	// message.
 }
 
 /*
@@ -167,7 +130,7 @@
 
 - (IBAction)trimFontBitmaps:(id)sender
 {
-	[(AXDocument *)self.document trimFontBitmaps];
+	[(AXDocument *)self.representedObject trimFontBitmaps];
 }
 
 @end

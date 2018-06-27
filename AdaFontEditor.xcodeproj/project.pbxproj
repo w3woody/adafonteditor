@@ -27,9 +27,7 @@
 		EF5AECAC20E28C48000E71C4 /* AXExtendedASCII.m in Sources */ = {isa = PBXBuildFile; fileRef = EF5AECAB20E28C48000E71C4 /* AXExtendedASCII.m */; };
 		EF6587BE20E2B7E8005475AA /* AXFontExport.m in Sources */ = {isa = PBXBuildFile; fileRef = EF6587BD20E2B7E8005475AA /* AXFontExport.m */; };
 		EF6587C220E2B861005475AA /* AXWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF6587C120E2B861005475AA /* AXWindowController.m */; };
-		EFEAADCD20E1729C0091E412 /* AXCharacterViewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = EFEAADCB20E1729C0091E412 /* AXCharacterViewItem.m */; };
-		EFEAADCE20E1729C0091E412 /* AXCharacterViewItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFEAADCC20E1729C0091E412 /* AXCharacterViewItem.xib */; };
-		EFEAADD220E176160091E412 /* NSViewController+Document.m in Sources */ = {isa = PBXBuildFile; fileRef = EFEAADD120E176160091E412 /* NSViewController+Document.m */; };
+		EF6587C520E3BA94005475AA /* AXFontSelectorView.m in Sources */ = {isa = PBXBuildFile; fileRef = EF6587C420E3BA94005475AA /* AXFontSelectorView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -72,11 +70,8 @@
 		EF6587BD20E2B7E8005475AA /* AXFontExport.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AXFontExport.m; sourceTree = "<group>"; };
 		EF6587C020E2B861005475AA /* AXWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AXWindowController.h; sourceTree = "<group>"; };
 		EF6587C120E2B861005475AA /* AXWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AXWindowController.m; sourceTree = "<group>"; };
-		EFEAADCA20E1729C0091E412 /* AXCharacterViewItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AXCharacterViewItem.h; sourceTree = "<group>"; };
-		EFEAADCB20E1729C0091E412 /* AXCharacterViewItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AXCharacterViewItem.m; sourceTree = "<group>"; };
-		EFEAADCC20E1729C0091E412 /* AXCharacterViewItem.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AXCharacterViewItem.xib; sourceTree = "<group>"; };
-		EFEAADD020E176160091E412 /* NSViewController+Document.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSViewController+Document.h"; sourceTree = "<group>"; };
-		EFEAADD120E176160091E412 /* NSViewController+Document.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSViewController+Document.m"; sourceTree = "<group>"; };
+		EF6587C320E3BA94005475AA /* AXFontSelectorView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AXFontSelectorView.h; sourceTree = "<group>"; };
+		EF6587C420E3BA94005475AA /* AXFontSelectorView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AXFontSelectorView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,7 +89,6 @@
 			isa = PBXGroup;
 			children = (
 				EF5AECA020E27A96000E71C4 /* Fonts */,
-				EFEAADCF20E175F40091E412 /* Utilities */,
 				EF20A2FB20E12C8100566BE4 /* Views */,
 				EF20A2EF20E07F0A00566BE4 /* View Controllers */,
 				EF6587BF20E2B84D005475AA /* Window Controllers */,
@@ -160,9 +154,8 @@
 			children = (
 				EF20A2FC20E12C9800566BE4 /* AXFontEditView.h */,
 				EF20A2FD20E12C9800566BE4 /* AXFontEditView.m */,
-				EFEAADCA20E1729C0091E412 /* AXCharacterViewItem.h */,
-				EFEAADCB20E1729C0091E412 /* AXCharacterViewItem.m */,
-				EFEAADCC20E1729C0091E412 /* AXCharacterViewItem.xib */,
+				EF6587C320E3BA94005475AA /* AXFontSelectorView.h */,
+				EF6587C420E3BA94005475AA /* AXFontSelectorView.m */,
 				EF5AEC9720E1980E000E71C4 /* AXColorView.h */,
 				EF5AEC9820E1980E000E71C4 /* AXColorView.m */,
 				EF5AEC9D20E268FA000E71C4 /* AXFontView.h */,
@@ -193,15 +186,6 @@
 				EF6587C120E2B861005475AA /* AXWindowController.m */,
 			);
 			path = "Window Controllers";
-			sourceTree = "<group>";
-		};
-		EFEAADCF20E175F40091E412 /* Utilities */ = {
-			isa = PBXGroup;
-			children = (
-				EFEAADD020E176160091E412 /* NSViewController+Document.h */,
-				EFEAADD120E176160091E412 /* NSViewController+Document.m */,
-			);
-			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -269,7 +253,6 @@
 			files = (
 				EF20A2E220E07BBC00566BE4 /* Assets.xcassets in Resources */,
 				EF20A2E520E07BBC00566BE4 /* Main.storyboard in Resources */,
-				EFEAADCE20E1729C0091E412 /* AXCharacterViewItem.xib in Resources */,
 				EF5AEC9620E17E9C000E71C4 /* Editor.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -288,12 +271,11 @@
 				EF20A2F920E1287000566BE4 /* AXAttributesViewController.m in Sources */,
 				EF5AECA920E2895E000E71C4 /* AXFontBitmapBuilder.m in Sources */,
 				EF6587BE20E2B7E8005475AA /* AXFontExport.m in Sources */,
+				EF6587C520E3BA94005475AA /* AXFontSelectorView.m in Sources */,
 				EF20A2FE20E12C9800566BE4 /* AXFontEditView.m in Sources */,
 				EF20A2E020E07BBC00566BE4 /* AXDocument.m in Sources */,
 				EF5AECA620E27B2B000E71C4 /* AXGlyphAttributes.m in Sources */,
 				EF20A2F320E07FA100566BE4 /* AXLayoutViewController.m in Sources */,
-				EFEAADD220E176160091E412 /* NSViewController+Document.m in Sources */,
-				EFEAADCD20E1729C0091E412 /* AXCharacterViewItem.m in Sources */,
 				EF5AECAC20E28C48000E71C4 /* AXExtendedASCII.m in Sources */,
 				EF5AEC9920E1980E000E71C4 /* AXColorView.m in Sources */,
 				EF20A2DD20E07BBC00566BE4 /* AXFontEditorViewController.m in Sources */,

@@ -7,6 +7,7 @@
 //
 
 #import "AXWindowController.h"
+#import "AXFontEditorViewController.h"
 #import "AXFontExport.h"
 #import "AXDocument.h"
 
@@ -20,6 +21,22 @@
     [super windowDidLoad];
     
     // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
+}
+
+/*
+ *	It appears the proper idiom on macOS to set the document inside my view
+ *	controller that is contained in this window controller is to watch for
+ *	a 'setDocument' call--and pass it down to the view controller's
+ *	'representedObject'. The view controller uses this 'representedObject' as
+ *	a reference to the data model that view controller is displaying.
+ */
+
+- (void)setDocument:(id)document
+{
+	[super setDocument:document];
+
+	// Tell my view controller what document it is working with.
+	[(AXFontEditorViewController *)(self.window.contentViewController) setRepresentedObject:document];
 }
 
 - (IBAction)export:(id)sender
