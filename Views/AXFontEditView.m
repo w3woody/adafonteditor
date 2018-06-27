@@ -63,6 +63,16 @@ static CGRect CalcRect(int16_t x, int16_t y, AXDisplayBoundary b)
  */
 
 @interface AXFontEditView ()
+{
+	/* State for mouse drag */
+	NSInteger lastX;
+	NSInteger lastY;
+	BOOL bitValue;
+	BOOL mouseDown;
+
+	NSInteger curX;
+	NSInteger curY;
+}
 @property (strong, nonatomic) AXDocument *document;
 @property (strong) AXCharacter *character;
 @property (assign) uint8_t charIndex;
@@ -317,38 +327,64 @@ static CGRect CalcRect(int16_t x, int16_t y, AXDisplayBoundary b)
 	[self setNeedsDisplay:YES];
 }
 
-- (void)mouseDown:(NSEvent *)event
+- (BOOL)findPosition:(CGPoint)loc
 {
-}
-
-- (void)mouseUp:(NSEvent *)event
-{
-	if (self.character == nil) return;
-
-	CGPoint loc = [self convertPoint:event.locationInWindow fromView:nil];
-
     uint8_t width = self.character.width;
     uint8_t height = self.character.height;
 	AXDisplayBoundary b = [self pixelSize];
 
-    for (uint8_t x = 0; x < width; ++x) {
-    	for (uint8_t y = 0; y < height; ++y) {
-    		CGRect r = CalcRect(x, y, b);
-    		if (CGRectContainsPoint(r, loc)) {
-    			/*
-    			 *	Flip bit
-    			 */
+//	pt.x = b.xoff + (x + b.left) * b.pixelSize;
+//	pt.y = b.yoff + (y + b.top) * b.pixelSize;
+	NSInteger x = (loc.x - b.xoff) / b.pixelSize - b.left;
+	NSInteger y = (loc.y - b.yoff) / b.pixelSize - b.top;
 
-    			BOOL flag = [self.character getBitAtX:x y:y];
-    			[self.document setBit:self.charIndex withValue:!flag atX:x y:y];
-    			return;
-			}
-		}
-	}
+	if ((x < 0) || (x >= width)) return NO;
+	if ((y < 0) || (y >= height)) return NO;
+
+	curX = x;
+	curY = y;
+	return YES;
+}
+
+- (void)mouseDown:(NSEvent *)event
+{
+	if (self.character == nil) return;
+
+	mouseDown = NO;
+	CGPoint loc = [self convertPoint:event.locationInWindow fromView:nil];
+	if (![self findPosition:loc]) return;
+
+	/*
+	 *	Determine where we clicked
+	 */
+
+	bitValue = ![self.character getBitAtX:curX y:curY];
+	lastX = curX;
+	lastY = curY;
+	mouseDown = YES;
+
+	[self.document setBit:self.charIndex withValue:bitValue atX:curX y:curY];
+}
+
+- (void)mouseUp:(NSEvent *)event
+{
+	mouseDown = NO;
 }
 
 - (void)mouseDragged:(NSEvent *)event
 {
+	if (!mouseDown) return;
+
+	CGPoint loc = [self convertPoint:event.locationInWindow fromView:nil];
+	if (![self findPosition:loc]) return;
+
+	if ((lastX == curX) && (lastY == curY)) return;	// drag within pixel
+	lastX = curX;
+	lastY = curY;
+
+	if (bitValue != [self.character getBitAtX:curX y:curY]) {
+		[self.document setBit:self.charIndex withValue:bitValue atX:curX y:curY];
+	}
 }
 
 @end
