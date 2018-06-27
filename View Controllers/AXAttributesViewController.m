@@ -22,7 +22,7 @@
 {
     [super viewDidLoad];
 
-	AXCharacter *ch = [self.document characterAtIndex:self.charIndex];
+	AXCharacter *ch = [self.document characterAtCode:self.charIndex];
     self.width.integerValue = ch.width;
     self.height.integerValue = ch.height;
     self.xAdvance.integerValue = ch.xAdvance;

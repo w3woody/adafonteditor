@@ -15,6 +15,4 @@
 - (void)setDocument:(AXDocument *)doc;
 - (void)setCharacter:(AXCharacter *)ch atIndex:(uint8_t)ch;
 
-- (void)clearCharacter;
-
 @end

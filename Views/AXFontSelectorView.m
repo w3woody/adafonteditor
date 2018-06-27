@@ -208,7 +208,7 @@
 	 *	Draw character image
 	 */
 
-	AXCharacter *character = [self.doc characterAtIndex:ch];
+	AXCharacter *character = [self.doc characterAtCode:ch];
 	NSImage *image = character.bitmapImage;
 	CGSize imageSize = image.size;
 

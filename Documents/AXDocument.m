@@ -154,11 +154,25 @@
  *	Character contents
  */
 
-- (AXCharacter *)characterAtIndex:(uint8_t)index
+- (AXCharacter *)characterAtCode:(uint8_t)index
 {
 	if (index < self.first) return nil;
 	if (index > self.last) return nil;
 	return self.characters[index - self.first];
+}
+
+- (void)setCharacter:(AXCharacter *)ch atCode:(uint8_t)index
+{
+	if (index < self.first) return;
+	if (index > self.last) return;
+
+	AXCharacter *oldChar = self.characters[index - self.first];
+	[[self.undoManager prepareWithInvocationTarget:self] setCharacter:oldChar atCode:index];
+	[self.undoManager setActionName:@"Replace Character"];
+
+	self.characters[index - self.first] = [[AXCharacter alloc] initWithCharacter:ch];
+
+	[[NSNotificationCenter defaultCenter] postNotificationName:NOTIFY_CHARACTERCHANGED object:self userInfo:@{ @"char": @(index) }];
 }
 
 /*
@@ -199,7 +213,7 @@
 	if ((self.first != code) || (self.last != ecode)) {
 		chars = [[NSMutableArray alloc] init];
 		for (uint16_t x = code; x <= ecode; ++x) {
-			AXCharacter *ch = [self characterAtIndex:x];
+			AXCharacter *ch = [self characterAtCode:x];
 			if (ch == nil) {
 				ch = [[AXCharacter alloc] init];
 			} else {
@@ -218,7 +232,7 @@
 
 - (void)setCharacter:(uint8_t)code bitmapWidth:(uint8_t)width height:(uint8_t)height xAdvance:(uint8_t)adv xOffset:(int8_t)xoff yOffset:(int8_t)yoff
 {
-	AXCharacter *ch = [self characterAtIndex:code];
+	AXCharacter *ch = [self characterAtCode:code];
 	if (ch == nil) return;
 
 	[[self.undoManager prepareWithInvocationTarget:self] setCharacter:code bitmapWidth:ch.width height:ch.height xAdvance:ch.xAdvance xOffset:ch.xOffset yOffset:ch.yOffset];
@@ -232,7 +246,7 @@
 
 - (void)replaceCharacter:(AXCharacter *)ch atIndex:(uint8_t)index actionName:(NSString *)actionName
 {
-	AXCharacter *oldChar = [self characterAtIndex:index];
+	AXCharacter *oldChar = [self characterAtCode:index];
 	[[self.undoManager prepareWithInvocationTarget:self] replaceCharacter:oldChar atIndex:index actionName:actionName];
 	[self.undoManager setActionName:actionName];
 	self.characters[index - self.first] = ch;
@@ -240,9 +254,9 @@
 	[[NSNotificationCenter defaultCenter] postNotificationName:NOTIFY_CHARACTERCHANGED object:self userInfo:@{ @"char": @(index) }];
 }
 
-- (void)clearCharacterAtIndex:(uint8_t)code
+- (void)clearCharacterAtCode:(uint8_t)code
 {
-	AXCharacter *ch = [self characterAtIndex:code];
+	AXCharacter *ch = [self characterAtCode:code];
 	if (ch == nil) return;
 
 	AXCharacter *clearChar = [[AXCharacter alloc] initWithCharacter:ch];
@@ -252,7 +266,7 @@
 
 - (void)setBit:(uint8_t)code withValue:(BOOL)value atX:(uint8_t)x y:(uint8_t)y
 {
-	AXCharacter *ch = [self characterAtIndex:code];
+	AXCharacter *ch = [self characterAtCode:code];
 	if (ch == nil) return;
 
 	[[self.undoManager prepareWithInvocationTarget:self] setBit:code withValue:[ch getBitAtX:x y:y] atX:x y:y];

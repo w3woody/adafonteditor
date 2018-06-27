@@ -57,7 +57,8 @@
  *	Character contents
  */
 
-- (AXCharacter *)characterAtIndex:(uint8_t)index;
+- (AXCharacter *)characterAtCode:(uint8_t)index;
+- (void)setCharacter:(AXCharacter *)ch atCode:(uint8_t)index;
 
 /*
  *	Document Settings
@@ -70,7 +71,7 @@
  */
 
 - (void)setCharacter:(uint8_t)code bitmapWidth:(uint8_t)width height:(uint8_t)height xAdvance:(uint8_t)adv xOffset:(int8_t)xoff yOffset:(int8_t)yoff;
-- (void)clearCharacterAtIndex:(uint8_t)code;
+- (void)clearCharacterAtCode:(uint8_t)code;
 
 - (void)trimFontBitmaps;
 

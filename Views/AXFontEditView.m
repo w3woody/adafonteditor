@@ -105,7 +105,7 @@ static CGRect CalcRect(int16_t x, int16_t y, AXDisplayBoundary b)
 	NSNumber *num = n.userInfo[@"char"];
 
 	if (num.integerValue == self.charIndex) {
-		self.character = [self.document characterAtIndex:self.charIndex];
+		self.character = [self.document characterAtCode:self.charIndex];
 		[self setNeedsDisplay:YES];
 	}
 }
@@ -195,13 +195,6 @@ static CGRect CalcRect(int16_t x, int16_t y, AXDisplayBoundary b)
 	b.yoff = (size.height - pixSize * h)/2;
 
 	return b;
-}
-
-- (void)clearCharacter
-{
-	if (self.character == nil) return;
-
-	[self.document clearCharacterAtIndex:self.charIndex];
 }
 
 - (void)drawRect:(NSRect)dirtyRect

@@ -80,7 +80,7 @@
 	fprintf(file, "const uint8_t %s_bitmap[] PROGMEM = {\n",fontName.UTF8String);
 
 	for (uint16_t ch = doc.first; ch <= doc.last; ++ch) {
-		AXCharacter *c = [doc characterAtIndex:ch];
+		AXCharacter *c = [doc characterAtCode:ch];
 		const uint8_t *data = [c rawBitmap];
 		uint16_t len = [c rawBitmapSize];
 		for (uint16_t i = 0; i < len; ++i) {
@@ -119,7 +119,7 @@
 	uint16_t offset = 0;
 	first = YES;
 	for (uint16_t ch = doc.first; ch <= doc.last; ++ch) {
-		AXCharacter *c = [doc characterAtIndex:ch];
+		AXCharacter *c = [doc characterAtCode:ch];
 		if (first) {
 			fprintf(file,"    ");
 			first = NO;

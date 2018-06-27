@@ -17,6 +17,8 @@
 @interface AXFontEditorViewController ()
 @property (weak) IBOutlet AXFontSelectorView *selectorView;
 @property (weak) IBOutlet AXFontEditView *fontEditor;
+
+@property (strong) AXCharacter *pasteboard;
 @end
 
 @implementation AXFontEditorViewController
@@ -32,7 +34,7 @@
 
 	self.selectorView.updateSelection = ^(NSInteger index) {
 		AXDocument *doc = (AXDocument *)self.representedObject;
-		AXCharacter *ch = [doc characterAtIndex:index + doc.first];
+		AXCharacter *ch = [doc characterAtCode:index + doc.first];
 		[self.fontEditor setCharacter:ch atIndex:index + doc.first];
 	};
 }
@@ -78,11 +80,6 @@
 	if (self.selectorView.selected < 0) return;
 
 	[self performSegueWithIdentifier:@"charAttrSegue" sender:self];
-}
-
-- (IBAction)delete:(id)sender
-{
-	[self.fontEditor clearCharacter];
 }
 
 - (void)prepareForSegue:(NSStoryboardSegue *)segue sender:(id)sender
@@ -131,6 +128,47 @@
 - (IBAction)trimFontBitmaps:(id)sender
 {
 	[(AXDocument *)self.representedObject trimFontBitmaps];
+}
+
+/*
+ *	Cut/copy/paste/delete
+ */
+
+- (IBAction)delete:(id)sender
+{
+	if (self.selectorView.selected < 0) return;
+	AXDocument *doc = (AXDocument *)self.representedObject;
+	uint8_t ch = (self.selectorView.selected + doc.first);
+	[doc clearCharacterAtCode:ch];
+}
+
+- (IBAction)cut:(id)sender
+{
+	if (self.selectorView.selected < 0) return;
+	AXDocument *doc = (AXDocument *)self.representedObject;
+	uint8_t ch = (self.selectorView.selected + doc.first);
+
+	self.pasteboard = [[AXCharacter alloc] initWithCharacter:[doc characterAtCode:ch]];
+	[doc clearCharacterAtCode:ch];
+}
+
+- (IBAction)copy:(id)sender
+{
+	if (self.selectorView.selected < 0) return;
+	AXDocument *doc = (AXDocument *)self.representedObject;
+	uint8_t ch = (self.selectorView.selected + doc.first);
+
+	self.pasteboard = [[AXCharacter alloc] initWithCharacter:[doc characterAtCode:ch]];
+}
+
+- (IBAction)paste:(id)sender
+{
+	if (self.selectorView.selected < 0) return;
+	if (self.pasteboard == nil) return;
+	AXDocument *doc = (AXDocument *)self.representedObject;
+	uint8_t ch = (self.selectorView.selected + doc.first);
+
+	[doc setCharacter:self.pasteboard atCode:ch];
 }
 
 @end
