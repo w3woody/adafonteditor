@@ -41,22 +41,12 @@
 
 - (void)dealloc
 {
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
+//	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)setRepresentedObject:(id)representedObject
 {
 	[super setRepresentedObject:representedObject];
-
-	// Update the view, if already loaded.
-
-	/*
-	 *	Register the notification listeners.
-	 */
-
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadDocument:) name:NOTIFY_DOCUMENTCHANGED object:representedObject];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadDocument:) name:NOTIFY_ALLCHANGED object:representedObject];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadCharacter:) name:NOTIFY_CHARACTERCHANGED object:representedObject];
 
 	/*
 	 *	Let our views know where they're getting their data from
@@ -105,20 +95,20 @@
 	}
 }
 
-/*
- *	Document Notifications
- */
-
-- (void)reloadDocument:(NSNotification *)n
+- (IBAction)doFlipHorizontal:(id)sender
 {
-	// ### Note: we do nothing here; our selector view will also reload,
-	// and send an update selection notification if necessary
+	if (self.selectorView.selected < 0) return;
+	AXDocument *doc = (AXDocument *)self.representedObject;
+	uint8_t ch = (self.selectorView.selected + doc.first);
+	[doc flipCharacterHorizontally:ch];
 }
 
-- (void)reloadCharacter:(NSNotification *)n
+- (IBAction)doFlipVertical:(id)sender
 {
-	// ### Note: we do nothing here; our selector view responds to this
-	// message.
+	if (self.selectorView.selected < 0) return;
+	AXDocument *doc = (AXDocument *)self.representedObject;
+	uint8_t ch = (self.selectorView.selected + doc.first);
+	[doc flipCharacterVertically:ch];
 }
 
 /*

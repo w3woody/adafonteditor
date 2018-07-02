@@ -46,6 +46,13 @@
 - (NSImage *)bitmapImage;
 
 /*
+ *	Character manipulation
+ */
+
+- (AXCharacter *)flipHorizontally;
+- (AXCharacter *)flipVertically;
+
+/*
  *	For export. Note our raw data is encoded with bits, LSB leftmost. This
  *	means for Adafruit GFX we need to flip the bits in the byte
  */

@@ -220,6 +220,39 @@ static uint32_t SizeOfBitmap(uint8_t width, uint8_t height)
 	memset(bitmap,0,size);
 }
 
+- (AXCharacter *)flipHorizontally
+{
+	if ((self.width == 0) || (self.height == 0)) return nil;
+
+	AXCharacter *ch = [[AXCharacter alloc] initWithCharacter:self];
+	for (uint8_t y = 0; y < self.height; ++y) {
+		for (uint8_t x = 0; x < self.width/2; ++x) {
+			BOOL b1 = [ch getBitAtX:x y:y];
+			BOOL b2 = [ch getBitAtX:self.width-x-1 y:y];
+			[ch setBit:b2 atX:x y:y];
+			[ch setBit:b1 atX:self.width-x-1 y:y];
+		}
+	}
+	return ch;
+}
+
+- (AXCharacter *)flipVertically
+{
+	if ((self.width == 0) || (self.height == 0)) return nil;
+
+	AXCharacter *ch = [[AXCharacter alloc] initWithCharacter:self];
+	for (uint8_t x = 0; x < self.width; ++x) {
+		for (uint8_t y = 0; y < self.height/2; ++y) {
+			BOOL b1 = [ch getBitAtX:x y:y];
+			BOOL b2 = [ch getBitAtX:x y:self.height-y-1];
+			[ch setBit:b2 atX:x y:y];
+			[ch setBit:b1 atX:x y:self.height-y-1];
+		}
+	}
+	return ch;
+}
+
+
 - (void)setWidth:(uint8_t)width height:(uint8_t)height
 {
 	if ((self.width == width) && (self.height == height)) return;

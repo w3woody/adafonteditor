@@ -87,6 +87,9 @@
 
 - (void)trimFontBitmaps;
 
+- (void)flipCharacterHorizontally:(uint8_t)code;
+- (void)flipCharacterVertically:(uint8_t)code;
+
 /*
  *	Character editing. Basically we set and clear individual pixels when
  *	we edit characters. This may seem time consuming, but this provides

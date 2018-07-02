@@ -184,6 +184,25 @@
                                     </items>
                                 </menu>
                             </menuItem>
+                            <menuItem title="Tools" id="Iq4-Zn-F74">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Tools" id="GkQ-g0-Vrc">
+                                    <items>
+                                        <menuItem title="Flip Horizontal" id="8Ad-EP-YDe">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="doFlipHorizontal:" target="Ady-hI-5gd" id="FGW-H7-Sao"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Flip Vertical" id="A5O-TH-Fbd">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="doFlipVertical:" target="Ady-hI-5gd" id="fW9-2k-m4g"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
                             <menuItem title="Window" id="aUF-d1-5bR">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Window" systemMenu="window" id="Td7-aD-5lo">

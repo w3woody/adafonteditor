@@ -372,6 +372,27 @@
 	[[NSNotificationCenter defaultCenter] postNotificationName:NOTIFY_CHARACTERCHANGED object:self userInfo:@{ @"char": @(code) }];
 }
 
+- (void)flipCharacterHorizontally:(uint8_t)code
+{
+	AXCharacter *ch = [self characterAtCode:code];
+	if (ch == nil) return;
+
+	ch = [ch flipHorizontally];
+	if (ch == nil) return;
+	[self replaceCharacter:ch atIndex:code actionName:@"Flip Horizontally"];
+}
+
+- (void)flipCharacterVertically:(uint8_t)code
+{
+	AXCharacter *ch = [self characterAtCode:code];
+	if (ch == nil) return;
+
+	ch = [ch flipVertically];
+	if (ch == nil) return;
+	[self replaceCharacter:ch atIndex:code actionName:@"Flip Vertically"];
+}
+
+
 // Engine replaces all characters with a new array.
 - (void)replaceBitmapsWithBitmap:(NSMutableArray<AXCharacter *> *)ch description:(NSString *)desc
 {
