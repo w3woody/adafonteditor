@@ -14,6 +14,12 @@
 @property (assign) uint8_t yHeight;
 @property (assign) uint8_t first;
 @property (assign) uint8_t last;
+
+@property (assign) uint8_t ascender;
+@property (assign) uint8_t capHeight;
+@property (assign) uint8_t xHeight;
+@property (assign) uint8_t descHeight;
+
 @property (strong) NSMutableArray<AXCharacter *> *characters;
 @end
 
@@ -39,7 +45,12 @@
 		 *	from our ascender/descender.
 		 */
 
-		self.yHeight = ceil(font.ascender - font.descender);
+		self.ascender = ceil(font.ascender);
+		self.capHeight = ceil(font.capHeight);
+		self.descHeight = ceil(-font.descender);
+		self.xHeight = ceil(font.xHeight);
+
+		self.yHeight = self.ascender + self.descHeight + ceil(font.leading);
 
 		/*
 		 *	Now build our array of glyphs for all the characters in our font.

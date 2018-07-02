@@ -54,6 +54,15 @@
 - (uint8_t)yHeight;
 
 /*
+ *	Document layout parameters
+ */
+
+- (uint8_t)ascender;
+- (uint8_t)capHeight;
+- (uint8_t)xHeight;
+- (uint8_t)descHeight;
+
+/*
  *	Character contents
  */
 
@@ -64,7 +73,10 @@
  *	Document Settings
  */
 
-- (void)setFontWithFirstCode:(uint8_t)code lastCode:(uint8_t)ecode yHeight:(uint8_t)height;
+- (void)setFontWithFirstCode:(uint8_t)code lastCode:(uint8_t)ecode
+		yHeight:(uint8_t)height ascender:(uint8_t)ascender
+		capHeight:(uint8_t)capHeight xHeight:(uint8_t)xHeight
+		descHeight:(uint8_t)descHeight;
 
 /*
  *	Character manipulation

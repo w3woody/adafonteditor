@@ -117,21 +117,27 @@
 	fprintf(file,"const GFXglyph %s_glyphs[] PROGMEM = {\n",fontName.UTF8String);
 
 	uint16_t offset = 0;
-	first = YES;
 	for (uint16_t ch = doc.first; ch <= doc.last; ++ch) {
 		AXCharacter *c = [doc characterAtCode:ch];
-		if (first) {
-			fprintf(file,"    ");
-			first = NO;
+		fprintf(file,"    { %5d, %3d, %3d, %3d, %3d, %3d }",offset,c.width,c.height,c.xAdvance,-c.xOffset,-c.yOffset);
+		if (ch < doc.last) {
+			fprintf(file,",");
 		} else {
-			fprintf(file,",\n    ");
+			fprintf(file," ");
 		}
-		fprintf(file,"{ %5d, %3d, %3d, %3d, %3d, %3d }",offset,c.width,c.height,c.xAdvance,-c.xOffset,-c.yOffset);
+
+		if ((ch < 32) || (ch >= 127)) {
+			fprintf(file,"  // $%02X\n",ch);
+		} else if (ch == 32) {
+			fprintf(file,"  // sp\n");
+		} else {
+			fprintf(file,"  // '%c'\n",(char)ch);
+		}
 
 		offset += c.rawBitmapSize;
 	}
 
-	fprintf(file,"\n};\n\n");
+	fprintf(file,"};\n\n");
 
 	/*
 	 *	Print the font record

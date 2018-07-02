@@ -26,6 +26,12 @@
 - (uint8_t)yHeight;			// Y height of entire font.
 - (uint8_t)first;
 - (uint8_t)last;
+
+- (uint8_t)ascender;
+- (uint8_t)capHeight;
+- (uint8_t)xHeight;
+- (uint8_t)descHeight;
+
 - (NSMutableArray<AXCharacter *> *)characters;
 
 @end

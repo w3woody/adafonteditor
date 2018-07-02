@@ -14,6 +14,12 @@
 @property (assign) uint8_t first;
 @property (assign) uint8_t last;
 @property (assign) uint8_t yHeight;
+
+@property (assign) uint8_t ascender;
+@property (assign) uint8_t capHeight;
+@property (assign) uint8_t xHeight;
+@property (assign) uint8_t descHeight;
+
 @property (strong) NSURL *export;
 @end
 
@@ -26,6 +32,11 @@
 		self.first = 32;
 		self.last = 126;
 		self.yHeight = 8;
+
+		self.ascender = 7;
+		self.capHeight = 7;
+		self.xHeight = 5;
+		self.descHeight = 1;
 
 		self.characters = [[NSMutableArray alloc] init];
 		for (uint8_t i = 32; i <= 126; ++i) {
@@ -44,6 +55,10 @@
 		self.first = builder.first;
 		self.last = builder.last;
 		self.yHeight = builder.yHeight;
+		self.ascender = builder.ascender;
+		self.capHeight = builder.capHeight;
+		self.xHeight = builder.xHeight;
+		self.descHeight = builder.descHeight;
 		self.characters = builder.characters;
 
 		[self updateChangeCount:NSChangeDone];
@@ -79,18 +94,34 @@
 						 @"characters": ach,
 						 @"first": @(self.first),
 						 @"last": @(self.last),
-						 @"yHeight": @(self.yHeight) };
+						 @"yHeight": @(self.yHeight),
+						 @"ascender": @(self.ascender),
+						 @"capHeight": @(self.capHeight),
+						 @"xHeight": @(self.xHeight),
+						 @"descHeight": @(self.descHeight),
+					   };
 	return [NSJSONSerialization dataWithJSONObject:d  options:NSJSONWritingPrettyPrinted error:nil];
 }
 
 
 - (BOOL)readFromData:(NSData *)data ofType:(NSString *)typeName error:(NSError **)outError
 {
+	BOOL calcHeights = NO;
 	NSDictionary *d = [NSJSONSerialization JSONObjectWithData:data  options:0 error:nil];
 
 	self.first = [(NSNumber *)d[@"first"] integerValue];
 	self.last = [(NSNumber *)d[@"last"] integerValue];
 	self.yHeight = [(NSNumber *)d[@"yHeight"] integerValue];
+
+	if (d[@"ascender"]) {
+		self.ascender = [(NSNumber *)d[@"ascender"] integerValue];
+		self.capHeight = [(NSNumber *)d[@"capHeight"] integerValue];
+		self.xHeight = [(NSNumber *)d[@"xHeight"] integerValue];
+		self.descHeight = [(NSNumber *)d[@"descHeight"] integerValue];
+	} else {
+		calcHeights = YES;
+	}
+
 	NSArray<NSDictionary *> *a = (NSArray<NSDictionary *> *)d[@"characters"];
 
 	NSString *exportPath = (NSString *)d[@"export"];
@@ -116,6 +147,64 @@
 			*outError = [NSError errorWithDomain:@"AXDocument" code:1 userInfo:d];
 		}
 		return NO;
+	}
+
+	/*
+	 *	Now if we need to calculate the various font parameters do so by
+	 *	running through the characters
+	 */
+
+	if (calcHeights) {
+		uint8_t ascender = 0;
+		uint8_t descender = 0;
+		uint8_t capHeight = 0;
+		uint8_t xHeight = 0;
+		BOOL foundCaps = NO;
+		BOOL foundX = NO;
+
+		NSInteger charIndex = self.first;
+		for (AXCharacter *ch in self.characters) {
+			// Ascender is the tallest character
+			if (ch.yOffset > ascender) {
+				ascender = ch.yOffset;
+			}
+
+			// Descender is the lowest below the baseline
+			if (ch.height > ch.yOffset) {
+				uint8_t dtmp = ch.height - ch.yOffset;
+				if (dtmp > descender) {
+					descender = dtmp;
+				}
+			}
+
+			// We use the letter A for the caps height
+			if (charIndex == 'A') {
+				foundCaps = YES;
+				capHeight = ch.yOffset;
+			}
+
+			// We use the letter x (naturally) for x height
+			if (charIndex == 'x') {
+				foundX = YES;
+				xHeight = ch.yOffset;
+			}
+
+			++charIndex;
+		}
+
+		self.ascender = ascender;
+		self.descHeight = descender;
+
+		if (foundCaps) {
+			self.capHeight = capHeight;
+		} else {
+			self.capHeight = ascender;			// guess cap is same as ascender
+		}
+		if (foundX) {
+			self.xHeight = xHeight;
+		} else {
+			self.xHeight = (2 * ascender)/3;	// Guess.
+		}
 	}
 
 	return YES;
@@ -179,9 +268,12 @@
  *	Document settings
  */
 
-- (void)setFontWithFirstCode:(uint8_t)code lastCode:(uint8_t)ecode yHeight:(uint8_t)height array:(NSArray<AXCharacter *> *)chars
+- (void)setFontWithFirstCode:(uint8_t)code lastCode:(uint8_t)ecode
+		yHeight:(uint8_t)height ascender:(uint8_t)ascender
+		capHeight:(uint8_t)capHeight xHeight:(uint8_t)xHeight
+		descHeight:(uint8_t)descHeight array:(NSArray<AXCharacter *> *)chars
 {
-	[[self.undoManager prepareWithInvocationTarget:self] setFontWithFirstCode:self.first lastCode:self.last yHeight:self.yHeight array:self.characters];
+	[[self.undoManager prepareWithInvocationTarget:self] setFontWithFirstCode:self.first lastCode:self.last yHeight:self.yHeight ascender:ascender capHeight:capHeight xHeight:xHeight descHeight:descHeight array:self.characters];
 	[self.undoManager setActionName:@"Update Font Parameters"];
 
 	/*
@@ -202,7 +294,10 @@
 	[[NSNotificationCenter defaultCenter] postNotificationName:NOTIFY_DOCUMENTCHANGED object:self];
 }
 
-- (void)setFontWithFirstCode:(uint8_t)code lastCode:(uint8_t)ecode yHeight:(uint8_t)height
+- (void)setFontWithFirstCode:(uint8_t)code lastCode:(uint8_t)ecode
+		yHeight:(uint8_t)height ascender:(uint8_t)ascender
+		capHeight:(uint8_t)capHeight xHeight:(uint8_t)xHeight
+		descHeight:(uint8_t)descHeight;
 {
 	/*
 	 *	This actually builds the replacement array then invokes our private
@@ -223,7 +318,7 @@
 		}
 	}
 
-	[self setFontWithFirstCode:code lastCode:ecode yHeight:height array:chars];
+	[self setFontWithFirstCode:code lastCode:ecode yHeight:height ascender:ascender capHeight:capHeight xHeight:xHeight descHeight:descHeight array:chars];
 }
 
 /*

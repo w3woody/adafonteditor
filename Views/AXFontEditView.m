@@ -40,8 +40,8 @@ static CGPoint CalcPoint(int16_t x, int16_t y, AXDisplayBoundary b)
 {
 	CGPoint pt;
 
-	pt.x = b.xoff + (x + b.left) * b.pixelSize;
-	pt.y = b.yoff + (y + b.top) * b.pixelSize;
+	pt.x = b.xoff + (x - b.left) * b.pixelSize;
+	pt.y = b.yoff + (y - b.top) * b.pixelSize;
 
 	return pt;
 }
@@ -103,11 +103,13 @@ static CGRect CalcRect(int16_t x, int16_t y, AXDisplayBoundary b)
 - (void)reloadCharacter:(NSNotification *)n
 {
 	NSNumber *num = n.userInfo[@"char"];
+	if (num.integerValue == self.charIndex) [self reload:n];
+}
 
-	if (num.integerValue == self.charIndex) {
-		self.character = [self.document characterAtCode:self.charIndex];
-		[self setNeedsDisplay:YES];
-	}
+- (void)reload:(NSNotification *)n
+{
+	self.character = [self.document characterAtCode:self.charIndex];
+	[self setNeedsDisplay:YES];
 }
 
 - (BOOL)isFlipped
@@ -126,6 +128,8 @@ static CGRect CalcRect(int16_t x, int16_t y, AXDisplayBoundary b)
 	_document = doc;
 
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadCharacter:) name:NOTIFY_CHARACTERCHANGED object:doc];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reload:) name:NOTIFY_ALLCHANGED object:doc];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reload:) name:NOTIFY_DOCUMENTCHANGED object:doc];
 }
 
 /*
@@ -135,13 +139,6 @@ static CGRect CalcRect(int16_t x, int16_t y, AXDisplayBoundary b)
 - (AXDisplayBoundary)pixelSize
 {
 	CGSize size = self.bounds.size;
-
-	if ((self.character.width == 0) || (self.character.height == 0)) {
-		return (AXDisplayBoundary){ 0,0,0,0,
-									0,0,
-									32,
-									size.width/2,size.height/2 };
-	}
 
 	AXDisplayBoundary b;
 	int16_t tmp;
@@ -172,11 +169,28 @@ static CGRect CalcRect(int16_t x, int16_t y, AXDisplayBoundary b)
 	if (b.right < tmp) b.right = tmp;
 
 	/*
+	 *	Now grow our rectangle to fit our document extents. These dimensions
+	 *	are relative to the origin, which is given at (xOffset,yOffset)
+	 */
+
+	tmp = self.character.yOffset - self.document.ascender;
+	if (b.top > tmp) b.top = tmp;
+	tmp = self.character.yOffset - self.document.capHeight;
+	if (b.top > tmp) b.top = tmp;
+	tmp = self.character.yOffset - self.document.xHeight;
+	if (b.top > tmp) b.top = tmp;
+	tmp = self.character.yOffset + self.document.descHeight;
+	if (b.bottom < tmp) b.bottom = tmp;
+
+	/*
 	 *	Calculate the pixel size
 	 */
 
 	NSInteger w = b.right - b.left;
 	NSInteger h = b.bottom - b.top;
+
+	if (w <= 0) w = 1;
+	if (h <= 0) h = 1;		// sanity check against zero division
 
 	NSInteger pixSize = (size.width - 20) / w;
 	NSInteger pixSizeY = (size.height - 20) / h;
@@ -311,6 +325,23 @@ static CGRect CalcRect(int16_t x, int16_t y, AXDisplayBoundary b)
 	[p setLineWidth:2];
 	[[NSColor blueColor] setStroke];
 	[p stroke];
+
+	/*
+	 *	Draw the ascender, caps height, x height and descender lines
+	 */
+
+	p = [[NSBezierPath alloc] init];
+	[p moveToPoint:CalcPoint(b.left,yOff - self.document.ascender,b)];
+	[p lineToPoint:CalcPoint(b.right,yOff - self.document.ascender,b)];
+	[p moveToPoint:CalcPoint(b.left,yOff - self.document.capHeight,b)];
+	[p lineToPoint:CalcPoint(b.right,yOff - self.document.capHeight,b)];
+	[p moveToPoint:CalcPoint(b.left,yOff - self.document.xHeight,b)];
+	[p lineToPoint:CalcPoint(b.right,yOff - self.document.xHeight,b)];
+	[p moveToPoint:CalcPoint(b.left,yOff + self.document.descHeight,b)];
+	[p lineToPoint:CalcPoint(b.right,yOff + self.document.descHeight,b)];
+
+	[[NSColor greenColor] setStroke];
+	[p stroke];
 }
 
 - (void)setCharacter:(AXCharacter *)ch atIndex:(uint8_t)ix
@@ -328,8 +359,8 @@ static CGRect CalcRect(int16_t x, int16_t y, AXDisplayBoundary b)
 
 //	pt.x = b.xoff + (x + b.left) * b.pixelSize;
 //	pt.y = b.yoff + (y + b.top) * b.pixelSize;
-	NSInteger x = (loc.x - b.xoff) / b.pixelSize - b.left;
-	NSInteger y = (loc.y - b.yoff) / b.pixelSize - b.top;
+	NSInteger x = (loc.x - b.xoff) / b.pixelSize + b.left;
+	NSInteger y = (loc.y - b.yoff) / b.pixelSize + b.top;
 
 	if ((x < 0) || (x >= width)) return NO;
 	if ((y < 0) || (y >= height)) return NO;
