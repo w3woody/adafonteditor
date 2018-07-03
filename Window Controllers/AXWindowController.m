@@ -45,7 +45,7 @@
 	panel.title = @"Export Font";
 	panel.prompt = @"Export Font";
 	panel.extensionHidden = NO;
-	panel.allowedFileTypes = @[ @"h" ];
+	panel.allowedFileTypes = @[ @"fontsrc" ];
 
 	AXDocument *doc = (AXDocument *)self.document;
 	NSURL *url = doc.exportURL;
