@@ -160,11 +160,18 @@
 
 - (void)drawCharacterAtIndex:(NSInteger)index selected:(BOOL)sel atLocation:(CGRect)r
 {
+	NSString *osxMode = [[NSUserDefaults standardUserDefaults] stringForKey:@"AppleInterfaceStyle"];
+	BOOL dark = [osxMode isEqualToString:@"Dark"];
+
 	NSColor *lcolor;
 	if (sel) {
 		lcolor = [NSColor colorWithDeviceRed:0.640 green:0.720 blue:0.800 alpha:1.0];
 	} else {
-		lcolor = [NSColor colorWithDeviceRed:0.9 green:0.9 blue:0.9 alpha:1.0];
+		if (dark) {
+			lcolor = [NSColor colorWithDeviceRed:0.2 green:0.2 blue:0.2 alpha:1.0];
+		} else {
+			lcolor = [NSColor colorWithDeviceRed:0.9 green:0.9 blue:0.9 alpha:1.0];
+		}
 	}
 	[lcolor setStroke];
 	[lcolor setFill];
@@ -195,9 +202,10 @@
 		label = [NSString stringWithFormat:@"%C",AXExtendedASCIIToUnicode(ch)];
 	}
 
+	NSColor *letterColor = dark ? [NSColor whiteColor] : [NSColor blackColor];
 	NSFont *font = [NSFont systemFontOfSize:12];
 	NSDictionary *d = @{ NSFontAttributeName: font,
-						 NSForegroundColorAttributeName: [NSColor blackColor] };
+						 NSForegroundColorAttributeName: letterColor };
 	CGSize size = [label sizeWithAttributes:d];
 
 	tmp.origin.y += (tmp.size.height - size.height)/2;
@@ -246,7 +254,14 @@
 {
     [super drawRect:dirtyRect];
 
-    [[NSColor whiteColor] setFill];
+	NSString *osxMode = [[NSUserDefaults standardUserDefaults] stringForKey:@"AppleInterfaceStyle"];
+	BOOL dark = [osxMode isEqualToString:@"Dark"];
+
+	if (dark) {
+	    [[NSColor colorWithWhite:0.1 alpha:1.0] setFill];
+	} else {
+	    [[NSColor whiteColor] setFill];
+	}
     NSRectFill(self.bounds);
 
     for (NSInteger i = 0; i < numChar; ++i) {

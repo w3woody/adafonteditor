@@ -312,6 +312,9 @@ static uint32_t SizeOfBitmap(uint8_t width, uint8_t height)
 
 - (NSImage *)bitmapImage
 {
+	NSString *osxMode = [[NSUserDefaults standardUserDefaults] stringForKey:@"AppleInterfaceStyle"];
+	BOOL dark = [osxMode isEqualToString:@"Dark"];
+
 	/*
 	 *	Create a temporary array of bits which we populate.
 	 */
@@ -328,6 +331,7 @@ static uint32_t SizeOfBitmap(uint8_t width, uint8_t height)
 	for (uint8_t x = 0; x < self.width; ++x) {
 		for (uint8_t y = 0; y < self.height; ++y) {
 			BOOL val = [self getBitAtX:x y:y];
+			if (dark) val = !val;	// flip
 			array[x + y * width] = val ? 0xFF000000 : 0xFFFFFFFF;
 		}
 	}
@@ -339,7 +343,7 @@ static uint32_t SizeOfBitmap(uint8_t width, uint8_t height)
     CGColorSpaceRef cspace = CGColorSpaceCreateDeviceRGB();
     CGDataProviderRef provider = CGDataProviderCreateWithData(NULL, array, byteLen, NULL);
 
-	CGImageRef image = CGImageCreate(width, height, 8, 32, width * 4, cspace, kCGBitmapByteOrder32Host * kCGImageAlphaFirst, provider, nil, NO, kCGRenderingIntentDefault);
+	CGImageRef image = CGImageCreate(width, height, 8, 32, width * 4, cspace, kCGBitmapByteOrder32Host | kCGImageAlphaFirst, provider, nil, NO, kCGRenderingIntentDefault);
 
 	CGColorSpaceRelease(cspace);
 	CGDataProviderRelease(provider);

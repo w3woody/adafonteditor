@@ -213,9 +213,16 @@ static CGRect CalcRect(int16_t x, int16_t y, AXDisplayBoundary b)
 
 - (void)drawRect:(NSRect)dirtyRect
 {
+	NSString *osxMode = [[NSUserDefaults standardUserDefaults] stringForKey:@"AppleInterfaceStyle"];
+	BOOL dark = [osxMode isEqualToString:@"Dark"];
+
     [super drawRect:dirtyRect];
 
-	[[NSColor whiteColor] setFill];
+	if (dark) {
+		[[NSColor colorWithWhite:0.1 alpha:1.0] setFill];
+	} else {
+		[[NSColor whiteColor] setFill];
+	}
 	NSRectFill(self.bounds);
 
     if (self.character == nil) return;
@@ -230,7 +237,12 @@ static CGRect CalcRect(int16_t x, int16_t y, AXDisplayBoundary b)
 	 *	Draw pixels
 	 */
 
-	[[NSColor blackColor] setFill];
+	if (dark) {
+		[[NSColor whiteColor] setFill];
+	} else {
+		[[NSColor blackColor] setFill];
+	}
+
     for (uint8_t x = 0; x < b.width; ++x) {
     	for (uint8_t y = 0; y < b.height; ++y) {
     		BOOL flag = [self.character getBitAtX:x y:y];
@@ -264,7 +276,11 @@ static CGRect CalcRect(int16_t x, int16_t y, AXDisplayBoundary b)
 		[path moveToPoint:pt1];
 		[path lineToPoint:pt2];
 	}
-	[[NSColor colorWithWhite:0.93 alpha:1.0] setStroke];
+	if (dark) {
+		[[NSColor colorWithWhite:0.20 alpha:1.0] setStroke];
+	} else {
+		[[NSColor colorWithWhite:0.93 alpha:1.0] setStroke];
+	}
 	[path stroke];
 
 	/*
